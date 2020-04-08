@@ -1,0 +1,64 @@
+<h1 style="text-align:center">Category list</h1>
+
+<% if @current_user.is_admin == true %>
+
+  <%= link_to "Create new category ", new_category_path,  
+    {:style=>'margin:20px;font-size:20px;color:blue', :class => ""} %>
+
+<% end %>
+
+<br>
+<br>
+<br>
+
+<% if  @categories.length == 0 %>
+  <h1 style="text-align:center">No Category list to be shown</h1>
+<% else %>
+  <div style='display:flex'>
+    <% @categories.each do |category| %>
+      <div style='background:#f7f4f4; width:200px; height: 260px; margin: 20px;text-align:center;padding:30px'>
+          <span style='font-weight:bold;font-size: 25px'><%= category.name %></span>
+ <br><br>
+        <span><%= category.desccriptioin %></span>
+        <br><br>
+        <% if @current_user.is_admin == true %>
+   <%= link_to 'Edit', edit_category_path(category) , 
+            {:style=>'margin:0px 20px;color:blue', :class => ""}%>
+
+
+<span style='    border: 1px solid blue;
+    padding: 5px;'>
+   <%= link_to 'Delete', category, method: :delete,
+        data: { confirm: 'Are you sure to delete ?' } %>
+        </span>
+
+ <br><br>
+ <br>
+    <%= form_for :category, url: categories_action_path() do |f| %>
+ <input type='hidden' name="current_category" placeholder='name' value='<%=category.id%>'>
+
+    <%= f.submit 'Add products', :class => 'addproducts', :id => category.id  %>
+   
+            <% end %>
+
+
+            <% end %>
+<%= form_for :category, url: categories_view_path() do |f| %>
+     <input type='hidden' name="current_category" placeholder='name' value='<%=category.id%>'>
+
+    <%= f.submit 'View products', :class => ''%>
+
+    <% end %>
+
+      </div>
+
+    <% end %>
+
+</div>
+
+<br>
+
+  <% end %>
+
+
+

@@ -1,0 +1,2 @@
+module AssignproductsHelper
+end
