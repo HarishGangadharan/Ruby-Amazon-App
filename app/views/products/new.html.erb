@@ -1,64 +1,54 @@
-<%= form_for @product do |f| %>
-
-
-  <h1 style="text-align:center">Create new Product</h1>
-  <div style="text-align:center;margin:30px">
-  <div>
-  <%= f.label :name %>
-  <span style="margin-left: 5rem;">
-  <%= f.text_field :name %>
-  </span>
-</div>
+<%= form_for @product  do |f| %>
+<h1 style="text-align:center">Create new Product</h1>
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :name %>
+      <span style="margin-left: 5rem;">
+      <%= f.text_field :name %>
+      </span>
+   </div>
 </div>
 <div style="text-align:center;margin:30px">
-
-<div>
-  <%= f.label :description %>
-  <span style="margin-left: 2.53rem;">
-
-  <%= f.text_area :description %>
-  </span>
-  <span style='display:none'>
-   <input type='hidden' name="product[created_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
-   <input type='hidden' name="product[modified_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
-
-  </span>
-
+   <div>
+      <%= f.label :description %>
+      <span style="margin-left: 2.53rem;">
+      <%= f.text_area :description %>
+      </span>
+      <span style='display:none'>
+      <input type='hidden' name="product[created_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
+      <input type='hidden' name="product[modified_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
+      </span>
+   </div>
 </div>
-</div>
-
 <div style="text-align:center;margin:30px">
-
 <div>
-  <%= f.label :price %>
-  <span style="margin-left: 5rem;">
-
-  <%= f.number_field :price %>
-  </span>
-
+   <%= f.label :price %>
+   <span style="margin-left: 5rem;">
+   <%= f.number_field :price %>
+   </span>
 </div>
+<div style='    text-align: center;
+   margin: 30px;'>
+   <%= f.label :image %>
+   <span style="margin-left: 2.53rem;">
+   <%# <input type="file" id="myfile" name="product[image]"> %>
+   <%= f.file_field :image %>
+   </span>
 </div>
-
 <div style="text-align:center;margin:30px">
-
-<div>
-  <%= f.label :category %>
-  <span style="margin-left: 5rem;">
-
-<select name="product[category_id]" style="width: 200px;
-    padding: 10px;">
-    <% @categories.each do |category| %>
-  <option value=<%= category.id%>><%= category.name%></option>
-    <% end %>
-</select>
-
-  </span>
-
+   <div>
+      <%= f.label :category %>
+      <span style="margin-left: 5rem;">
+         <select name="product[category_id]" style="width: 200px;
+            padding: 10px;">
+            <% @categories.each do |category| %>
+            <option value=<%= category.id%>><%= category.name%></option>
+            <% end %>
+         </select>
+      </span>
+   </div>
 </div>
-</div>
-
-
 <div style="text-align:center;margin:3px">
-  <%= f.submit %>
+   <%= f.submit %>
 </div>
 <% end %>

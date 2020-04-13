@@ -39,6 +39,8 @@ gem 'metro-ui-rails'
 
 gem 'toastr-rails'
 
+gem 'carrierwave'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

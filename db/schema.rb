@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200406124647) do
+ActiveRecord::Schema.define(version: 20200413054342) do
 
   create_table "Orders_Products", id: false, force: true do |t|
     t.integer "order_id",   null: false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20200406124647) do
     t.string   "created_by"
     t.string   "modified_by"
     t.integer  "category_id"
+    t.string   "image"
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree

@@ -3,21 +3,33 @@
 
 Store::Application.routes.draw do
   resources :categories
-  resources :assignproducts
-
+  resources :orders
   resources :products
+
+
+  # User routes
   root 'user#index'
   post '/users' => 'user#create'
   post '/sessions' => 'sessions#create'
-  get 'viewproducts/index'
-  post 'assignproducts/action'
-  post 'categories/action'
-  post 'products/filter'
-  post 'products/reset'
+  
+  #Product routes
+  
+  post 'products/filter' => 'products#filter'
+  post 'products/reset' => 'products#reset'
+  post 'products/buy' => 'products#buy'
+  get 'dashboard' => 'products#dashboard'
 
-  post 'categories/view'
+ #Categories routes
+  post 'categories/viewproducts' => 'categories#viewproducts'
+  get '/viewproducts' => 'categories#view'
+
+  #Order routes
+  post 'orders/purchase' => 'corders#purchase'
+
+
+  #Logout
   get '/logout' => 'sessions#destroy'
-
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

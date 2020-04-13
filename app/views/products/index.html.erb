@@ -1,88 +1,78 @@
-
-
 <h1 style="text-align:center">Product list</h1>
-<div style="display:flex; justify-content:space-between">
-<% if @current_user.is_admin == true %>
-
-<%= link_to "Create new product ", new_product_path,  
-{:style=>'margin:20px;font-size:20px;color:blue', :class => ""} %>
-
-<% end %>
-  <% if  @products.length != 0 %>
-
-<div style='display:flex'>
-  <label>categories</label>
-        <%= form_for :product, url: products_filter_path() do |f| %>
-
-  <span style="margin:0 1rem;">
-
-<select name="product[filter_category_id]" style="width: 200px;
-    padding: 10px;">
-    <% @categories.each do |category| %>
-  <option value=<%= category.id%>><%= category.name%></option>
-    <% end %>
-</select>
-
-  </span>
-
-    <%= f.submit 'Filter', :class => ''  %>
-   
-<% end %>
-        <%= form_for :product, url: products_reset_path() do |f| %>
-    <%= f.submit 'Reset', :class => ''  %>
-
-<% end %>
-
-
+<div style="display:flex; justify-content:space-between;margin: 15px">
+   <% if @current_user.is_admin == true %>
+   <%= link_to "Create new product ", new_product_path,  
+      {:style=>'font-size:20px;color:blue', :class => ""} %>
+   <% end %>
+   <% if  @products.length != 0 %>
+   <div style='display:flex'>
+      <label>categories</label>
+      <%= form_for :product, url: products_filter_path() do |f| %>
+      <span style="margin:0 1rem;">
+         <input type='hidden' name="product[page]" placeholder='name' value='products'>
+         <select name="product[filter_category_id]" style="width: 200px;
+            padding: 10px;"
+            %>
+            <% @categories.each do |category| %>
+            <option value=<%= category.id%> 
+               <%=  @filter_category_id == category.id ? selected = "selected"  : ''%>
+               ><%= category.name%></option>
+            <% end %>
+         </select>
+      </span>
+      <%= f.submit 'Filter', :class => ''  %>
+      <% end %>
+      <%= form_for :product, url: products_reset_path() do |f| %>
+      <input type='hidden' name="product[page]" placeholder='name' value='products'>
+      <%= f.submit 'Reset', :class => ''  %>
+      <% end %>
+   </div>
+   <% end %>
 </div>
-<% end %>
-
-</div>
-
-
-  <% if  @products.length == 0 %>
+<% if  @products.length == 0 %>
 <h1 style="text-align:center">No Product list to be shown</h1>
- <% else %>
-
+<% else %>
+<%= form_for :product, url: products_buy_path() do |f| %>
 <table border="1" style="margin:auto">
-  <thead>
-    <th style="padding:20px">Name</th>
-    <th  style="padding:20px">Description</th>
-    <th  style="padding:20px">Price</th>
-    <th  style="padding:20px">Action</th>
-
-  </thead>
-  <% @products.each do |product| %>
-  <tr>
-    <td style="padding:20px"><%= product.name %></td>
-    <td style="padding:20px"><%= product.description %></td>
-    <td style="padding:20px"><%= product.price %></td>
-    <td style="padding:20px">
-
-<% if @current_user.is_admin == true %>
-
-
-      <%= link_to "Edit", edit_product_path(product) ,
-      {:style=>'margin:0px 20px;color:blue', :class => ""} %>
-
-
-<span style='    border: 1px solid blue;
-    padding: 5px;'>
-      <%= link_to "Delete", product, method: :delete,
-       data: { confirm: "Are you sure you want to delete this product?"}
-        %>
-        </span>
-
-          <% end %>
-
-           <%= link_to "Buy",'' ,
-      {:style=>'margin:0px 20px;color:blue', :class => ""} %>
-
-    </td>
-  </tr>
-  <% end %>
+   <thead>
+      <th style="padding:20px"></th>
+      <th style="padding:20px">Name</th>
+      <th  style="padding:20px">Description</th>
+      <th  style="padding:20px">Price</th>
+      <th  style="padding:20px">Action</th>
+      <th  style="padding:20px">Image</th>
+   </thead>
+   <% @products.each do |product| %>
+   <tr>
+      <td>
+         <%= hidden_field_tag "checked[#{product.id}]"  %>
+         <%= check_box_tag "checked[#{product.id}]" %>
+      </td>
+      <td style="padding:20px"><%= product.name %></td>
+      <td style="padding:20px"><%= product.description %></td>
+      <td style="padding:20px"><%= product.price %></td>
+      <td style="padding:20px">
+         <% if @current_user.is_admin == true %>
+         <%= link_to "Edit", edit_product_path(product) ,
+            {:style=>'margin:0px 20px;color:blue', :class => ""} %>
+         <span style='    border: 1px solid blue;
+            padding: 5px;'>
+         <%= link_to "Delete", product, method: :delete,
+            data: { confirm: "Are you sure you want to delete this product?"}
+             %>
+         </span>
+         <% end %>
+         <%# <%= link_to "Buy", orders_path ,
+            {:style=>'margin:0px 20px;color:blue', :class => ""} %> 
+      </td>
+      <td style="padding:20px">
+         <%= image_tag(product.image, {:style => "width:100px;"}) %>
+      </td>
+   </tr>
+   <% end %>
 </table>
-
-  <% end %>
-
-
+<div style ='text-align:center; margin-top: 20px'>
+   <%= f.submit 'Buy products', :class => 'btn btn-primary'  %>
+</div>
+<% end %>
+<% end %>

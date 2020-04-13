@@ -1,70 +1,53 @@
 <%= form_for @product do |f| %>
-  <h1 style="text-align:center">Edit Product</h1>
-
-  <div style="text-align:center;margin:30px">
-  <div>
-  <%= f.label :name %>
-  <span style="margin-left: 5rem;">
-  <%= f.text_field :name %>
-  </span>
-</div>
+<h1 style="text-align:center">Edit Product</h1>
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :name %>
+      <span style="margin-left: 5rem;">
+      <%= f.text_field :name %>
+      </span>
+   </div>
 </div>
 <div style="text-align:center;margin:30px">
-
-<div>
-  <%= f.label :description %>
-  <span style="margin-left: 2.53rem;">
-
-  <%= f.text_area :description %>
-  </span>
-
+   <div>
+      <%= f.label :description %>
+      <span style="margin-left: 2.53rem;">
+      <%= f.text_area :description %>
+      </span>
+   </div>
 </div>
-</div>
-
 <div style="text-align:center;margin:30px">
-
 <div>
-  <%= f.label :price %>
-  <span style="margin-left: 5rem;">
-
-  <%= f.number_field :price %>
-  </span>
-
+   <%= f.label :price %>
+   <span style="margin-left: 5rem;">
+   <%= f.number_field :price %>
+   </span>
 </div>
-
-
 <div style="text-align:center;margin:30px">
-
-<div>
-<label>Selected category</label>
-  <span style="margin-left: 5rem;">
-<input type='text' name="login[email]" value = <%= @category_name%> readonly>
-
-  </span>
-
-</div>
-
-<div style="text-align:center;margin:30px">
-
-<div>
-<label>Change category</label>
-  <span style="margin-left: 5rem;">
-<select name="product[category_id]" style="width: 200px;
-    padding: 10px;">
-        <% @categories.each do |category| %>
-  <option
-   value=<%= category.id%>><%= category.name%></option>
-    <% end %>
-</select>
-
-
-  </span>
-</div>
-</div>
-
-
+   <% if @product && @product.category_id %>
+   <div>
+      <label>Selected category</label>
+      <span style="margin-left: 5rem;">
+      <input type='text' name="login[email]" value = <%= @category_name%> readonly>
+      </span>
+   </div>
+   <% end %>
+   <div style="text-align:center;margin:30px">
+      <div>
+         <label>Choose category</label>
+         <span style="margin-left: 5rem;">
+            <select name="product[category_id]" style="width: 200px;
+               padding: 10px;">
+               <% @categories.each do |category| %>
+               <option
+                  value=<%= category.id%>><%= category.name%></option>
+               <% end %>
+            </select>
+         </span>
+      </div>
+   </div>
 </div>
 <div style="text-align:center;margin:3px">
-  <%= f.submit %>
+   <%= f.submit %>
 </div>
 <% end %>
