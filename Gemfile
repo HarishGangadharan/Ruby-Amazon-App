@@ -39,10 +39,9 @@ gem 'metro-ui-rails'
 
 gem 'toastr-rails'
 
-gem 'carrierwave'
-
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'carrierwave'
+gem "paperclip", "~> 4.2"
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

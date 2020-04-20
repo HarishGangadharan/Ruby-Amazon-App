@@ -4,11 +4,12 @@ class CategoriesController < ApplicationController
 	before_action :is_signed_in?
 
 	def is_signed_in?
-		if session[:user_id] 
-			puts "is_signed_in"
-		else 
-			redirect_to '/'
-		end
+	   if session[:user_id] 
+	puts "is_signed_in"
+	else 
+		redirect_to '/'
+	end
+	
 	end
 
 	# GET /categories
@@ -28,13 +29,16 @@ class CategoriesController < ApplicationController
 	def new
 		@category = Category.new
 		@current_user = current_user;
+
 	end
 
 	# GET /categories/1/edit
 	def edit
 		@category = Category.find(params[:id])
 		@current_user = current_user;
+
 	end
+
 
 	def viewproducts
 		@current_category = params[:current_category]
@@ -43,12 +47,15 @@ class CategoriesController < ApplicationController
 	end
 
 	def view
+
 		vars = request.query_parameters
-		@current_user = current_user;
-		@current_category = vars['current_category_id']
-		@current_category_name  = Category.find( vars['current_category_id']);
-		@products  = Product.all(:conditions => { :category_id => vars['current_category_id'] })
-			end
+        @current_user = current_user;
+        @current_category = vars['current_category_id']
+        @current_category_name  = Category.find( vars['current_category_id']);
+        @products  = Product.all(:conditions => { :category_id => vars['current_category_id'] })
+   
+	end
+
 
 	def create
 		@category = Category.new(category_params)
@@ -58,12 +65,12 @@ class CategoriesController < ApplicationController
 			render :new
 		end
 	end
-
 	# PATCH/PUT /categories/1
 	# PATCH/PUT /categories/1.json
 	def update
 		if @category.update(category_params)
 			redirect_to categories_url
+
 		else
 			format.html { render action: 'edit' }
 			format.json { render json: @category.errors, status: :unprocessable_entity }

@@ -1,0 +1,80 @@
+<div style='text-align:center'>
+
+      <h2>Account Details </h2>
+     <%= form_for :user, url: user_saveprofile_path(),  html: { multipart: true  }  do |f| %>
+         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>
+<div style='    text-align: center;
+   margin: 30px;'>
+   <%= f.label :Profile_Picture %>
+   <span style="margin-left: 2.53rem;">
+   <%# <input type="file" id="myfile" name="product[image]"> %>
+   <%= f.file_field :image %>
+   </span>
+</div>
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Username %>
+      <span style="margin-left: 5rem;">
+      <%= f.text_field :name,  :disabled => true %>
+      </span>
+   </div>
+</div>
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Email %>
+      <span style="margin-left: 7rem;">
+      <%= f.text_field :email,  :disabled => true %>
+      </span>
+   </div>
+</div>
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Firstname %>
+      <span style="margin-left: 5rem;">
+      <%= f.text_field :firstname %>
+      </span>
+   </div>
+</div>
+
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Lastname %>
+      <span style="margin-left: 5rem;">
+      <%= f.text_field :lastname %>
+      </span>
+   </div>
+</div>
+
+
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Mobile  %>
+      <span style="margin-left: 6rem;">
+      <%= f.number_field :mobile %>
+      </span>
+   </div>
+</div>
+
+
+
+<div style="text-align:center;margin:30px">
+   <div>
+      <%= f.label :Address  %>
+      <span style="margin-left: 6rem;">
+      <%= f.text_area :address %>
+      </span>
+   </div>
+</div>
+<div style="text-align:center;margin:3px">
+   <%= f.submit "Save" %>
+</div>
+
+
+    <% end %>
+ 
+</div>

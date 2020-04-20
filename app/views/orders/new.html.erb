@@ -1,34 +1,95 @@
+<% @@totalprice = 0 %>
+<% @@name = '' %>
+
+   <% @selectedproducts.each do |product| %>
+     <% @@totalprice = @@totalprice + product.price %>
+      <% @@name = product.name + ',' + @@name  %>
+   <% end %>
+
+
+  <script type="text/javascript">
+  totalprice = 0;
+  cumulativePrice = 0;
+  function  getTotalPrice(price, id) {
+   quantity =   document.getElementById(id).value;
+   totalprice =  price * (quantity - 1 );
+   cumulativePrice =  parseInt(document.getElementById('TPrice').innerHTML) + totalprice
+   document.getElementById('TPrice').innerHTML = cumulativePrice;
+   console.log('>>>>>>>>>>>>>>>>', document.getElementById('ipTotalPrice'))
+   document.getElementById('ipTotalPrice').value = cumulativePrice;
+
+   
+   totalprice = 0;
+  }
+  </script>
+
+
 <h1 style="text-align:center">Create new Order</h1>
-<%= form_for :product, url: orders_purchase_path() do |f| %>
+   <%= form_for :@order, url: orders_purchase_path() do |f| %>
+
 <div style='display:flex'>
 <div style='width:600px'>
    <% @selectedproducts.each do |product| %>
-   <div style='height:200px;background-color:#dcdcdc;padding:30px;margin:30px;width:500px;'>
+   <div style='height:200px;
+   background-color:#dcdcdc;padding:30px;margin:30px;width:500px;display:flex'>
+   <div style='width:50%'>
+         <%= image_tag(product.image, {:style =>"max-width: 90%; margin-top: -6px;    max-height: 150px;"}) %>
+   </div>
+   
+   <div>
+
+
       <span>
       <label> Product Name:</label>
       <%= product.name%> </span>
+
       <div style='margin: 20px 0px;'>
          <span>
          <label> Product Description:</label>
          <%= product.description%> </span>
       </div>
+
       <span>
       <label> Product Price:</label>
-      <%= product.price%> </span>
+      <%= product.price %> </span>
+
+
+
       <div style='margin: 20px 0px;'>
          <span>
          <label> Quantity:</label>
-         <input type="number" id="quantity" name="quantity" min="1" max="5" value=1>
+
+         <input type="number" 
+           name="prod<%= product.id%>" min="1" max="5" value=1 id =<%= product.id%>
+           onclick='getTotalPrice(<%= product.price%>, this.id)'>
          </span>
       </div>
+
    </div>
+      </div>
+
    <% end %>
 </div>
 <div style='width:400px;background-color:#dcdcdc;     padding: 30px;
    margin: 30px;text-align:center'>
+
+
    <div style='margin: 30px 0'>
-      <label> Total Price:</label>
+      <label> Total Price: 
+      <span id ='TPrice'><%= @@totalprice %>
+</span>
+       <input type='hidden' name='order[price]' id='ipTotalPrice' >
+      <input type='hidden' name='order[name]' value= <%= @@name %> >
+      <input type='hidden' name='order[user_id]' value= <%= @current_user.id %> >
+
+
+ </label>
+
+
    </div>
+
    <%= f.submit 'Add products', :class => 'btn btn-primary'  %>
 </div>
 <% end %>
+
+

@@ -10,8 +10,16 @@ Store::Application.routes.draw do
   # User routes
   root 'user#index'
   post '/users' => 'user#create'
+  get 'profile' => 'user#profile'
   post '/sessions' => 'sessions#create'
-  
+  post 'profile' => 'user#accountdetails'
+  get 'forgotpassword' => 'user#forgotpassword'
+  post 'user/sendmail' => 'user#sendmail'
+  get 'changepassword' => 'user#changepassword'
+  post 'user/resetpassword' => 'user#resetpassword'
+  post 'user/viewprofile' => 'user#viewprofile'
+  post 'user/saveprofile' => 'user#saveprofile'
+
   #Product routes
   
   post 'products/filter' => 'products#filter'
@@ -24,12 +32,16 @@ Store::Application.routes.draw do
   get '/viewproducts' => 'categories#view'
 
   #Order routes
-  post 'orders/purchase' => 'corders#purchase'
+  post 'orders/purchase' => 'orders#purchase'
 
 
   #Logout
   get '/logout' => 'sessions#destroy'
-  
+
+
+  #404error
+  get '*unmatched_route', to: 'errors#show'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

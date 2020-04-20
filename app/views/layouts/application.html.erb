@@ -6,6 +6,8 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title><%= content_for?(:title) ? yield(:title) : "Store" %></title>
       <%= csrf_meta_tags %>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
       <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
       <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
@@ -43,15 +45,38 @@
                   {:style=>'margin:30px;color:white', :class => ""} %>
                <%= link_to "Categories", categories_path,  
                   {:style=>'margin:30px;color:white', :class => ""} %>
-               <span style="float:right; color:white;margin:0px 30px">
-               <%= @current_user && @current_user.is_admin ? "Admin" : 'Buyer'%>
-               <span style=" color:black;margin:0px 30px;">
-               <%= link_to "Log out", logout_path, {:style=>'margin:30px;color:white', :class => ""} %>
+                            <%= link_to "Orders", orders_path,  
+                  {:style=>'margin:30px;color:white', :class => ""} %>
+               <span style="float:right; color:white;margin:0px 30px;display:flex">
+
+               <span style=" color:black;margin:0px 0px;">
+               <%= link_to  profile_path , 
+                 {:style=>'margin:10px;color:white', :class => ""} do %>
+                 <i class="fa fa-user"></i>
+               <% end %>
                </span>
+
+
+
+
+
+
+
+               <span style=" color:black;margin:0px 0px;">
+               <%= link_to  logout_path , 
+                 {:style=>'margin:10px;color:white', :class => ""} do %>
+                 <i class="fa fa-sign-out"></i>
+               <% end %>
+               </span>
+
+
+               
+
                </span>
                <span style="float:right; color:white">
                <%= @current_user && @current_user.email%>
                </span>
+               
                <% end %>
             </div>
          </div>

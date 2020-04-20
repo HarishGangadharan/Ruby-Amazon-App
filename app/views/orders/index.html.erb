@@ -1,1 +1,33 @@
 <h1 style="text-align:center">Order list</h1>
+
+<div style='margin:40px'>
+   <% @orders.each do |order| %>
+
+  <div style='height:50px;background-color:#e8e4e4; margin: 20px 0; display:flex;padding:15px;    justify-content: space-between;'>
+    <span>
+      <label style='font-weight: bold;font-size: 15px;'> Name : </label>
+      <span> <%= order.name%> </span>
+    </span>
+
+    <span>
+      <label  style='font-weight: bold;font-size: 15px;'> Price : </label>
+      <span> <%= order.price%> </span>
+    </span>
+
+        <span>
+      <label  style='font-weight: bold;font-size: 15px;'> Order Placed by : </label>
+      <span> <%= order.user_id%> </span>
+    </span>
+
+
+        <span>
+      <label  style='font-weight: bold;font-size: 15px;'> Order Placed Date : </label>
+      <span> <%= order.created_at%> </span>
+    </span>
+
+  </div>
+
+  <% end %>
+
+
+</div>

@@ -9,22 +9,42 @@ class OrdersController < ApplicationController
 		end
 	end
 		def index
-		@categories = Category.all
+			if current_user.is_admin
+				@orders = Order.all
+			else
+				@orders = Order.where(user_id: current_user.id)
+
+			end
 		@current_user = current_user;
-		@current_category = params[:current_category]
+
 	end
 
 	def new
+		@order = Order.new
 		@current_user = current_user;
 		@selectedproducts = [];
+		@sp = '';
 		params[:selectedproducts].each { |id|
 			@selectedproducts << Product.find(id);  
+			@sp = id  + ',' + @sp
 		}
+		session[:selectedproducts] = @sp;
 	end
 
 
 	def purchase
-		puts "???????????????????????#{params}"
+		begin
+			@order = Order.create(order_params)
+		rescue Exception => e
+			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+		end
+		redirect_to orders_path
 	end
+
+    private
+      def order_params
+        params.require(:order).permit(:name, :description, :price, :user_id)
+      end
+
 
 end

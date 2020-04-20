@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200413054342) do
+ActiveRecord::Schema.define(version: 20200420033625) do
 
   create_table "Orders_Products", id: false, force: true do |t|
     t.integer "order_id",   null: false
@@ -48,9 +48,20 @@ ActiveRecord::Schema.define(version: 20200413054342) do
     t.string   "modified_by"
     t.integer  "category_id"
     t.string   "image"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
+
+  create_table "products_orders", force: true do |t|
+    t.integer "product_id"
+    t.integer "order_id"
+    t.integer "price"
+    t.integer "quantity"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -59,6 +70,15 @@ ActiveRecord::Schema.define(version: 20200413054342) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_admin"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.integer  "mobile",             limit: 8
+    t.string   "address"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.string   "pwdresettoken"
   end
 
 end

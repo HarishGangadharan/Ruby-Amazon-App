@@ -16,6 +16,8 @@
 //= require turbolinks
 //= require_tree .
 //= require toastr
+
+
 $(document).ready(function() {
     toastr.options = {
         "closeButton": false,

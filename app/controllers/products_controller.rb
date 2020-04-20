@@ -1,8 +1,6 @@
 class ProductsController < ApplicationController
 
 	before_action :is_signed_in?
-	@@filter_category_id = nil;
-
 	def is_signed_in?
 		if session[:user_id] 
 			puts "is_signed_in"
@@ -12,7 +10,7 @@ class ProductsController < ApplicationController
 	end
 
 	def reset
-		@@filter_category_id = nil;
+		session[:filter_category_id] = 'none';
 		if   product_params[:page] == 'dashboard'
 			redirect_to dashboard_path
 		else
@@ -21,7 +19,7 @@ class ProductsController < ApplicationController
 	end
 
 	def filter
-		@@filter_category_id = product_params[:filter_category_id];
+	   session[:filter_category_id] =  product_params[:filter_category_id];
 		if   product_params[:page] == 'dashboard'
 			redirect_to dashboard_path
 		else
@@ -30,15 +28,21 @@ class ProductsController < ApplicationController
 	end
 
 	def index
-		if @@filter_category_id == nil
+	    if session[:filter_category_id] == nil
+			session[:filter_category_id] = 'none'
+		else
+			
+		end
+	
+		if session[:filter_category_id] == 'none'
 			@products = Product.all
 		else
-			@products  = Product.all(:conditions => { :category_id =>  @@filter_category_id})
+			@products  = Product.all(:conditions => { :category_id =>  session[:filter_category_id]})
 		end
 		@current_user = current_user;
 		@categories = Category.all;
 		@product = Product.new;
-		@filter_category_id = @@filter_category_id.to_i;
+		@filter_category_id = session[:filter_category_id].to_i;
 	end
 
 	def show
@@ -60,7 +64,7 @@ class ProductsController < ApplicationController
 			# @product.modified_by = current_user.email;
 			#  @product.save!
 		rescue Exception => e
-			puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
 		end
 		redirect_to products_path
 	end
@@ -113,11 +117,11 @@ class ProductsController < ApplicationController
 	def dashboard
 		@current_user = current_user;
 		@categories = Category.all;
-		@filter_category_id = @@filter_category_id.to_i;
-		if @@filter_category_id == nil
+		@filter_category_id = session[:filter_category_id].to_i;
+		if session[:filter_category_id] == 'none'
 			@products = Product.all
 		else
-			@products  = Product.all(:conditions => { :category_id =>  @@filter_category_id})
+			@products  = Product.all(:conditions => { :category_id => session[:filter_category_id] })
 		end
 	end
 
