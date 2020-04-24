@@ -37,11 +37,24 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'therubyracer'
 gem 'metro-ui-rails'
 
-gem 'toastr-rails'
+# gem 'toastr-rails'
 
 # Use unicorn as the app server
 gem 'carrierwave'
 gem "paperclip", "~> 4.2"
+gem 'toastr-rails'
+
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'jquery-rails'
+# gem 'autoprefixer-rails'
+
+# gem 'prawn'
+
+# gem 'prawn-table'
+
+# gem 'wicked_pdf'
+# gem 'wkhtmltopdf-binary'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

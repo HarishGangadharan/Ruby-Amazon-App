@@ -33,7 +33,10 @@ Store::Application.routes.draw do
 
   #Order routes
   post 'orders/purchase' => 'orders#purchase'
-
+  post 'orders/filter' => 'orders#filter'
+  post 'orders/reset' => 'orders#reset'
+  get 'vieworder' => 'orders#vieworder'
+  get 'printorder' => 'orders#printorder'
 
   #Logout
   get '/logout' => 'sessions#destroy'

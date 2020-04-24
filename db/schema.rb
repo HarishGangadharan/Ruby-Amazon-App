@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200420033625) do
-
-  create_table "Orders_Products", id: false, force: true do |t|
-    t.integer "order_id",   null: false
-    t.integer "product_id", null: false
-    t.integer "price"
-    t.integer "quantity"
-  end
+ActiveRecord::Schema.define(version: 20200421160644) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -34,9 +27,20 @@ ActiveRecord::Schema.define(version: 20200420033625) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "quantity"
   end
 
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+
+  create_table "orders_products", id: false, force: true do |t|
+    t.integer "order_id",   null: false
+    t.integer "product_id", null: false
+    t.integer "price"
+    t.integer "quantity"
+  end
+
+  add_index "orders_products", ["order_id", "product_id"], name: "index_orders_products_on_order_id_and_product_id", using: :btree
+  add_index "orders_products", ["product_id", "order_id"], name: "index_orders_products_on_product_id_and_order_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"
@@ -55,13 +59,6 @@ ActiveRecord::Schema.define(version: 20200420033625) do
   end
 
   add_index "products", ["category_id"], name: "index_products_on_category_id", using: :btree
-
-  create_table "products_orders", force: true do |t|
-    t.integer "product_id"
-    t.integer "order_id"
-    t.integer "price"
-    t.integer "quantity"
-  end
 
   create_table "users", force: true do |t|
     t.string   "name"

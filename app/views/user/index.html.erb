@@ -4,18 +4,6 @@
       <%# <input type=button value="Register" onclick="showRegister('login');"> %>
    </div>
    <div id="login">
-      <% flash.each do |name, msg|%>
-      <br>
-      <div class='alert alert=<%= name %>' style='width: 300px;
-         background-color: #fbb4b4;
-         height: 50px;
-         border-radius: 7px;
-         margin:auto;
-         text-align: center;'>
-         <%= msg %>
-      </div>
-      <% end %>
-      <br>
       <h2 style="text-align:center">Login</h2>
       <form action="/sessions" method="POST" style="text-align:center">
          <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>

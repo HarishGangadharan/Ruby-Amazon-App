@@ -1,10 +1,12 @@
-<h1 style='text-align:center'>Dashboard</h1>
-<br><br>
 
-<div>
    <% if  @products.length == 0 %>
-   <h1 style="text-align:center">No Product list to be shown</h1>
+
+   <h1 style="text-align:center">No Prodsduct list to be shown</h1>
+
    <% else %>
+
+   <p class="text-warning">.text-warning</p>
+
    <h2 style='text-align:center'>Products</h2>
    <div style='display:flex;    margin: 10px 20px;justify-content: flex-end;'>
       <%= form_for :product, url: products_filter_path() do |f| %>
@@ -31,13 +33,13 @@
    <div style='display:flex;justify-content:center;width:100%'>
       <% @products.each do |product| %>
       <div style='background:#f7f4f4; width:33.3%; height: 440px; margin: 20px;text-align:center;padding:30px'>
-         <%= image_tag(product.image, {:style =>"max-width: 100%; margin-top: -6px;"}) %>
+         <%= image_tag(product.image, {:style =>"max-width: 100%; margin-top: -6px;max-height:150px"}) %>
          <br>
          <br>
          <span style='font-weight:bold;font-size: 25px'> Name : </span><span style='font-weight:bold;font-size: 25px'><%= product.name %></span>
          <br>
          <br>
-         <span style='font-size: 20px'> description : </span><span style='font-size: 20px'>
+        <span style='font-size: 20px'>
          <%= product.description %></span>
          <br>
          <br>

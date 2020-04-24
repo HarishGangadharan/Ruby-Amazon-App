@@ -2,12 +2,12 @@ class SessionsController < ApplicationController
 
 	def create
 		begin  
-			# user = User.find_by email: emailVal.to_s
-			# user = User.where(email: "sam@gmail.com")
 			user = User.find_by(email: login_params[:email])
 			if user && user.authenticate(login_params[:password])
 				session[:user_id] = user.id
-				redirect_to dashboard_path
+				flash[:success] = "Welcome #{user.name}!"
+
+				redirect_to products_path
 			else 
 				flash[:error] = 'Invalid username or password'
 				# render :new
@@ -15,13 +15,23 @@ class SessionsController < ApplicationController
 			end
 		rescue Exception => e
 			puts "#{e}"
+			flash[:error] = 'Sorry! Failed to login.Please try again'
+			redirect_to '/'
 			# puts e.backtrace.inspect  
 		end  
 	end
 
-	def destroy      
-		session[:user_id] = nil     
-		redirect_to '/' 
+	def destroy    
+		begin
+			session[:user_id] = nil     
+			redirect_to '/' 
+		rescue Exception => e
+			puts "#{e}"
+			flash[:error] = 'Sorry! Sometime went wrong.Please try again'
+			redirect_to dashboard_path;
+			# puts e.backtrace.inspect  
+		end  
+
 	end 
 
 

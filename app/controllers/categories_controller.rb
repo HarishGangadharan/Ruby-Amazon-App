@@ -5,19 +5,24 @@ class CategoriesController < ApplicationController
 
 	def is_signed_in?
 	   if session[:user_id] 
-	puts "is_signed_in"
-	else 
-		redirect_to '/'
-	end
-	
+	    	puts "is_signed_in"
+		else 
+			redirect_to '/'
+		end
 	end
 
 	# GET /categories
 	# GET /categories.json
 	def index
-		@categories = Category.all
-		@current_user = current_user;
-		@current_category = params[:current_category]
+		begin
+			@categories = Category.all
+			@current_user = current_user;
+			@current_category = params[:current_category]
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to dashboard_path
+		end
 	end
 
 	# GET /categories/1
@@ -27,63 +32,103 @@ class CategoriesController < ApplicationController
 
 	# GET /categories/new
 	def new
-		@category = Category.new
-		@current_user = current_user;
-
+		begin
+			@category = Category.new
+			@current_user = current_user;	
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
+		end
 	end
 
 	# GET /categories/1/edit
 	def edit
-		@category = Category.find(params[:id])
-		@current_user = current_user;
-
+		begin
+			@category = Category.find(params[:id])
+			@current_user = current_user;
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
+		end
 	end
 
-
 	def viewproducts
-		@current_category = params[:current_category]
-		session[:current_category] = @current_category
-		redirect_to viewproducts_path(@current_category_id, :current_category_id => params[:current_category])
+		begin
+			@current_category = params[:current_category]
+			session[:current_category] = @current_category
+			redirect_to viewproducts_path(@current_category_id, :current_category_id => params[:current_category])
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
+		end
 	end
 
 	def view
-
-		vars = request.query_parameters
-        @current_user = current_user;
-        @current_category = vars['current_category_id']
-        @current_category_name  = Category.find( vars['current_category_id']);
-        @products  = Product.all(:conditions => { :category_id => vars['current_category_id'] })
-   
-	end
-
-
-	def create
-		@category = Category.new(category_params)
-		if @category.save
-			redirect_to categories_url
-		else
-			render :new
+		begin
+			vars = request.query_parameters
+    	    @current_user = current_user;
+       		@current_category = vars['current_category_id']
+       		@current_category_name  = Category.find( vars['current_category_id']);
+     	    @products  = Product.all(:conditions => { :category_id => vars['current_category_id'] })
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
 		end
 	end
+
+	def create
+		begin
+			@category = Category.new(category_params)
+			if @category.save
+				flash[:success] = 'Category Successfully Created'
+
+				redirect_to categories_url
+			else
+				render :new
+			end
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
+		end
+	end
+
 	# PATCH/PUT /categories/1
 	# PATCH/PUT /categories/1.json
 	def update
-		if @category.update(category_params)
-			redirect_to categories_url
+		begin
+			if @category.update(category_params)
+				flash[:success] = 'Category Successfully Updated'
 
-		else
-			format.html { render action: 'edit' }
-			format.json { render json: @category.errors, status: :unprocessable_entity }
+				redirect_to categories_url
+			else
+				format.html { render action: 'edit' }
+				format.json { render json: @category.errors, status: :unprocessable_entity }
+			end
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
 		end
 	end
 
 	# DELETE /categories/1
 	# DELETE /categories/1.json
 	def destroy
-		@category.destroy
-		respond_to do |format|
-			format.html { redirect_to categories_url }
-			format.json { head :no_content }
+		begin
+			@category.destroy
+			respond_to do |format|
+				format.html { redirect_to categories_url }
+				format.json { head :no_content }
+			end
+		rescue Exception => e
+			puts "e., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to categories_url;
 		end
 	end
 

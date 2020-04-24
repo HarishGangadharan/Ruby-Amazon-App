@@ -1,5 +1,30 @@
 <h1 style="text-align:center">Order list</h1>
 
+<% if @current_user.is_admin %>
+  
+   <div style='display:flex;justify-content: flex-end;
+    margin: 20px 40px;align-items:center'>
+      <label>Sort by Customer name: </label>
+      <%= form_for :order, url: orders_filter_path() do |f| %>
+      <span style="margin:0 1rem;">
+         <select name="order[customer_id]" style="width: 200px;
+            padding: 10px;"
+            %>
+            <% @users.each do |user| %>
+            <option value=<%= user.id%> 
+               <%=  @customer_id == user.id ? selected = "selected"  : ''%>
+               ><%= user.name%></option>
+            <% end %>
+         </select>
+      </span>
+      <%= f.submit 'Filter', :class => ''  %>
+      <% end %>
+      <%= form_for :order, url: orders_reset_path() do |f| %>
+      <%= f.submit 'Reset', :class => ''  %>
+      <% end %>
+   </div>
+      <% end %>
+
 <div style='margin:40px'>
    <% @orders.each do |order| %>
 
@@ -15,14 +40,21 @@
     </span>
 
         <span>
-      <label  style='font-weight: bold;font-size: 15px;'> Order Placed by : </label>
-      <span> <%= order.user_id%> </span>
+      <label  style='font-weight: bold;font-size: 15px;'> Customer : </label>
+       <% @users.each do |user| %>
+          <% if user.id == order.user_id %>
+            <%= user.name%>
+          <% end %>
+         <% end %>
+      </span>
+        <span>
+      <label  style='font-weight: bold;font-size: 15px;'> Date : </label>
+      <span> <%= order.created_at%> </span>
     </span>
 
-
-        <span>
-      <label  style='font-weight: bold;font-size: 15px;'> Order Placed Date : </label>
-      <span> <%= order.created_at%> </span>
+    <span>
+    <%= link_to 'view more', vieworder_path(request.query_parameters.merge({ order:   order.id })),  
+   {:style=>'margin:20px;font-size:15px;color:blue', :class => ""} %>
     </span>
 
   </div>

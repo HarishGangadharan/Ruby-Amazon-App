@@ -9,7 +9,6 @@ class UserController < ApplicationController
         redirect_to dashboard_path
 	else 
     # redirect_to '/'
-
 	end
 	
     end
@@ -20,24 +19,34 @@ class UserController < ApplicationController
             puts ">user_paramsuser_params, #{user_params}"
             user.save!
             session[:user_id] = user.id
+            flash[:success] = 'Successfully registered!'
             redirect_to '/'          
-
-        rescue Exception => e
-            puts "#{e}"
+          rescue Exception => e
+            puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>#{e}"
+            flash[:error] = 'Sorry! Failed to register.Please try again'
+            redirect_to '/'
             # puts e.backtrace.inspect  
-          end           
+          end        
 
     end
 
-	def profile
-    @user = current_user;
-    @current_user = current_user;
-
+  def profile
+    begin
+      @user = current_user;
+      @current_user = current_user; 
+    rescue Exception => e
+      puts "#{e}"
+      flash[:error] = 'Sorry! Sometime went wrong.Please try again'
+      redirect_to products_path
+      # puts e.backtrace.inspect  
+    end     
   end
   
  
 
   def saveprofile
+
+   begin
     user = current_user;
     user.firstname = user_params[:firstname]
     user.lastname = user_params[:lastname]
@@ -47,7 +56,17 @@ class UserController < ApplicationController
     user.image = user_params[:image]
 
     user.save!
-    redirect_to products_path;
+    flash[:success] = 'Successfully Updated'
+
+    redirect_to products_path; 
+   rescue Exception => e
+    puts "#{e}"
+    flash[:error] = 'Sorry! Sometime went wrong.Please try again'
+    redirect_to products_path
+    # puts e.backtrace.inspect  
+  end   
+
+
   end
 
 
@@ -55,6 +74,8 @@ class UserController < ApplicationController
   end
 
   def changepassword
+
+  begin
     vars = request.query_parameters
     @token = vars['token']
 
@@ -69,21 +90,38 @@ class UserController < ApplicationController
       user.pwdresettoken = nil
       user.save!
     end
+  rescue Exception => e
+    puts "#{e}"
+    flash[:error] = 'Link has been expired'
+    redirect_to orders_path
+    # puts e.backtrace.inspect  
+  end  
+
+
 
   end
 
   def resetpassword
-    user = User.find_by(pwdresettoken: params[:token])
-   minutes = (Time.now - user.updated_at) / 1.minutes
-   if (minutes < 3)
-    user.password = params[:password]
-    user.password_confirmation = params[:password_confirmation]
-    user.pwdresettoken = nil
-    user.save!
-   else
-     
-   end
-   redirect_to '/'
+
+    begin
+      user = User.find_by(pwdresettoken: params[:token])
+      minutes = (Time.now - user.updated_at) / 1.minutes
+      if (minutes < 3)
+       user.password = params[:password]
+       user.password_confirmation = params[:password_confirmation]
+       user.pwdresettoken = nil
+       user.save!
+       flash[:success] = 'Password Updated'
+
+      else
+        
+      end
+    rescue Exception => e
+      puts "#{e}"
+      flash[:error] = 'Link has been expired'
+      # puts e.backtrace.inspect  
+    end  
+    redirect_to '/'
 
   end
 
@@ -98,9 +136,11 @@ class UserController < ApplicationController
       user.save!
       UserMailer.reset_password(params[:email], token).deliver;
     end
-   rescue Exception => e
-    puts ">>>>Exception>>>>>>>>, #{e}"
-   end
+  rescue Exception => e
+    puts "#{e}"
+    flash[:error] = 'Sorry! Sometime went wrong.Please try again'
+    # puts e.backtrace.inspect  
+  end   
    redirect_to '/'
   end
 

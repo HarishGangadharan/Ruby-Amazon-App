@@ -1,4 +1,6 @@
-<h1 style="text-align:center">Product list</h1>
+<%# <h1 style="text-align:center">Product list</h1> %>
+
+         
 <div style="display:flex; justify-content:space-between;margin: 15px">
    <% if @current_user.is_admin == true %>
    <%= link_to "Create new product ", new_product_path,  
@@ -51,7 +53,7 @@
       <td style="padding:20px"><%= product.name %></td>
       <td style="padding:20px"><%= product.description %></td>
       <td style="padding:20px"><%= product.price %></td>
-      <td style="padding:20px">
+      <td style="padding:20px;">
          <% if @current_user.is_admin == true %>
          <%= link_to "Edit", edit_product_path(product) ,
             {:style=>'margin:0px 20px;color:blue', :class => ""} %>

@@ -1,5 +1,6 @@
 <%= form_for @product , html: { multipart: true  }  do |f| %>
 <h1 style="text-align:center">Create new Product</h1>
+
 <div style="text-align:center;margin:30px">
    <div>
       <%= f.label :name %>
@@ -27,11 +28,10 @@
    <%= f.number_field :price %>
    </span>
 </div>
-<div style='    text-align: center;
-   margin: 30px;'>
+<div style='text-align: center;
+   margin: 30px;display:flex;justify-content:center'>
    <%= f.label :image %>
    <span style="margin-left: 2.53rem;">
-   <%# <input type="file" id="myfile" name="product[image]"> %>
    <%= f.file_field :image %>
    </span>
 </div>

@@ -15,8 +15,10 @@
 //= require metro-ui
 //= require turbolinks
 //= require_tree .
-//= require toastr
 
+//= require bootstrap
+
+//= require toastr
 
 $(document).ready(function() {
     toastr.options = {

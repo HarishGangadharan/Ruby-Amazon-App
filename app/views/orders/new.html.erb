@@ -3,7 +3,7 @@
 
    <% @selectedproducts.each do |product| %>
      <% @@totalprice = @@totalprice + product.price %>
-      <% @@name = product.name + ',' + @@name  %>
+      <% @@name = product.name  %>
    <% end %>
 
 
@@ -58,9 +58,10 @@
       <div style='margin: 20px 0px;'>
          <span>
          <label> Quantity:</label>
+      <input type='hidden' name='order[product_ids]' value= <%= product.id %> >
 
          <input type="number" 
-           name="prod<%= product.id%>" min="1" max="5" value=1 id =<%= product.id%>
+           name="order[quantity]" min="1" max="5" value=1 id =<%= product.id%>
            onclick='getTotalPrice(<%= product.price%>, this.id)'>
          </span>
       </div>
@@ -78,7 +79,7 @@
       <label> Total Price: 
       <span id ='TPrice'><%= @@totalprice %>
 </span>
-       <input type='hidden' name='order[price]' id='ipTotalPrice' >
+       <input type='hidden' name='order[price]' id='ipTotalPrice' value= <%= @@totalprice %>  >
       <input type='hidden' name='order[name]' value= <%= @@name %> >
       <input type='hidden' name='order[user_id]' value= <%= @current_user.id %> >
 

@@ -1,0 +1,92 @@
+
+<div style='text-align:center'>
+  <h2> View Order Details </h2>
+  <%= link_to "PDF file" , printorder_path(format: 'pdf') %> 
+  <div style='display:flex; margin: 20px 0'>
+  <div style='    height: 450px;
+    width: 40%;
+    margin: auto;
+    background-color: #d6d6d6;'>
+
+    <span>
+         <%= image_tag(@product.image, {:style =>"max-width: 90%; margin-top: 35px; "}) %>
+    </span>
+    <div style='margin:17px'>
+    <label style='font-size: 17px;
+    font-weight: bold;'> Name: </label>
+    <span style='font-size: 17px;'> <%= @product.name%> </span>
+    </div>
+
+    <div style='margin:17px'>
+     
+    <span style='font-size: 17px;'> <%= @product.description%> </span>
+    </div>
+
+
+    <div style='margin:17px'>
+        <label style='font-size: 17px;
+    font-weight: bold;'> Price: </label>
+   <span style='font-size: 17px;'> <%= @product.price%> </span>
+    </div>
+
+    <div style='margin:17px'>
+      <label style='font-size: 17px;
+    font-weight: bold;'> Quantity: </label>
+    <span style='font-size: 17px;'> <%= @orderDetails.quantity%> </span>
+    </div>
+
+  </div>
+
+    <div style='    height: 470px;
+    width: 40%;
+    margin: auto;
+    background-color: #d6d6d6;'>
+
+    <span>
+         <%= image_tag(@current_user.image, {:style =>"max-width: 90%; margin-top: 35px; "}) %>
+    </span>
+    <div style='margin:17px'>
+    <label style='font-size: 17px;
+    font-weight: bold;'> Name: </label>
+    <span style='font-size: 17px;'> <%= @current_user.name%> </span>
+    </div>
+
+    <div style='margin:17px'>
+        <label style='font-size: 17px;
+    font-weight: bold;'> Firstname</label>
+   <span style='font-size: 17px;'> <%= @current_user.firstname%> </span>
+    </div>
+
+
+    <div style='margin:17px'>
+        <label style='font-size: 17px;
+    font-weight: bold;'> Lastname</label>
+   <span style='font-size: 17px;'> <%= @current_user.lastname%> </span>
+    </div>
+
+
+
+    <div style='margin:17px'>
+            <label style='font-size: 17px;
+    font-weight: bold;'> Mobile: </label>
+    <span style='font-size: 17px;'> <%= @current_user.mobile%> </span>
+    </div>
+
+
+    <div style='margin:17px'>
+        <label style='font-size: 17px;
+    font-weight: bold;'> Email: </label>
+   <span style='font-size: 17px;'> <%= @current_user.email%> </span>
+    </div>
+
+    <div style='margin:17px'>
+        <label style='font-size: 17px;
+    font-weight: bold;'> Address: </label>
+   <span style='font-size: 17px;'> <%= @current_user.address%> </span>
+    </div>
+
+
+  </div>
+</div>
+
+</div>

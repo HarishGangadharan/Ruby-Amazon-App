@@ -9,80 +9,166 @@ class ProductsController < ApplicationController
 		end
 	end
 
-	def reset
-		session[:filter_category_id] = 'none';
-		if   product_params[:page] == 'dashboard'
-			redirect_to dashboard_path
-		else
-			redirect_to products_path
-		end
-	end
-
-	def filter
-	   session[:filter_category_id] =  product_params[:filter_category_id];
-		if   product_params[:page] == 'dashboard'
-			redirect_to dashboard_path
-		else
-			redirect_to products_path
-		end
-	end
-
 	def index
-	    if session[:filter_category_id] == nil
+
+		begin
+	      if session[:filter_category_id] == nil
 			session[:filter_category_id] = 'none'
-		else
-			
-		end
+		  end
 	
-		if session[:filter_category_id] == 'none'
+		  if session[:filter_category_id] == 'none'
 			@products = Product.all
-		else
+		  else
 			@products  = Product.all(:conditions => { :category_id =>  session[:filter_category_id]})
-		end
-		@current_user = current_user;
-		@categories = Category.all;
-		@product = Product.new;
-		@filter_category_id = session[:filter_category_id].to_i;
+		  end
+
+		  @current_user = current_user;
+		  @categories = Category.all;
+	      @product = Product.new;
+		  @filter_category_id = session[:filter_category_id].to_i;
+	    rescue Exception => e
+		  puts "#{e}"
+		  flash[:error] = 'Sorry! Something went wrong.Please try again'
+		  redirect_to '/'
+		  # puts e.backtrace.inspect  
+	    end  
 	end
 
-	def show
-		@product = Product.find(params[:id])
-		@current_user = current_user;
-	end
-		def new
-		@product = Product.new
-		@current_user = current_user;
-		@categories = Category.all
-	end
 
 	def create
 		begin
-			# @current_user = current_user;
-			# redirect_to '/'  unless current_user
-			@product = Product.create(product_params)
-			# @product.created_by = current_user.email;
-			# @product.modified_by = current_user.email;
-			#  @product.save!
+		  @product = Psdsdroduct.create(product_params)
+		  flash[:success] = 'Product Successfully Created!'
 		rescue Exception => e
-			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
-		end
-		redirect_to products_path
-	end
+		  puts "e., #{e}"
+		  flash[:error] = 'Sorry! Something went wrong.Please try again'
+		  end
+		  redirect_to products_path
+		 end
 
-	def edit
-		@product = Product.find(params[:id])
-		@current_user = current_user;
-		@categories = Category.all;
-		@categories.each { |category|
-			if @product.category_id == category.id
-				@category_name = category.name;
-			else 
-				puts ""              
+
+
+		 def edit
+			begin
+			  @product = Product.find(params[:id])
+			  @current_user = current_user;
+			  @categories = Category.all;
+			  @categories.each { |category|
+				if @product.category_id == category.id
+				  @category_name = category.name;
+				 end
+			  }
+			rescue Exception => e
+			  puts "e, #{e}"
+			  flash[:error] = 'Sorry! Something went wrong.Please try again'
+			  redirect_to products_path
+		  end
+		  
+		  end
+
+		  def update
+			begin
+			  @current_user = current_user;
+			  @product = Product.find(params[:id])
+			  flash[:success] = 'Product Successfully Updated!'
+	  
+			  if @product.update(product_params)
+				  redirect_to products_path
+			  else
+				  render :edit
+			  end
+				
+			rescue Exception => e
+			  puts "e, #{e}"
+			  flash[:error] = 'Sorry! Something went wrong.Please try again'
+			  redirect_to products_path
+	  
 			end
-		}
-	end
+	  
+	  
+		  end
+
+
+		  def new
+			begin
+				@product = Product.new
+				@current_user = current_user;
+				@categories = Category.all	
+			rescue Exception => e
+				puts "e, #{e}"
+				flash[:error] = 'Sorry! Something went wrong.Please try again'
+				redirect_to products_path
+			  end
+		end
+	
+
+		def dashboard
+			begin
+				@current_user = current_user;
+				@categories = Category.all;
+				@filter_category_id = session[:filter_category_id].to_i;
+				if session[:filter_category_id] == 'none'
+					@products = Product.all
+				else
+					@products  = Product.all(:conditions => { :category_id => session[:filter_category_id] })
+				end
+			rescue Exception => e
+				puts "e, #{e}"
+				flash[:error] = 'Sorry! Something went wrong.Please try again'
+				redirect_to products_path
+			  end
+		end
+
+
+		def reset
+			begin
+				session[:filter_category_id] = 'none';
+				if   product_params[:page] == 'dashboard'
+					redirect_to dashboard_path
+				else
+					redirect_to products_path
+				end
+			rescue Exception => e
+				puts "e, #{e}"
+				flash[:error] = 'Sorry! Something went wrong.Please try again'
+				redirect_to products_path
+			  end
+		end
+	
+
+		def filter
+			begin
+			  session[:filter_category_id] =  product_params[:filter_category_id];
+			  if   product_params[:page] == 'dashboard'
+				  redirect_to dashboard_path
+			  else
+				  redirect_to products_path
+			  end
+			rescue Exception => e
+			  puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+			  flash[:error] = 'Sorry! Something went wrong.Please try again'
+			  redirect_to products_path
+			end
+		  end
+
+
+
+		  def show
+			begin
+			@product = Product.find(params[:id])
+			@current_user = current_user;
+		  rescue Exception => e
+			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to products_path
+		  end
+
+		end
+
 
 	def buy
+	  begin
+
 		@selectedproducts = []
 		params[:checked].each { |item|
 			if item[1] == "1" 
@@ -96,34 +182,32 @@ class ProductsController < ApplicationController
 			end
 		}
 		redirect_to new_order_path(selectedproducts: @selectedproducts)
+		  
+	  rescue Exception => e
+		puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+		flash[:error] = 'Sorry! Something went wrong.Please try again'
+		redirect_to products_path
+	  end
+		
 	end
 
-	def update
-		@current_user = current_user;
-		@product = Product.find(params[:id])
-		if @product.update(product_params)
-			redirect_to products_path
-		else
-			render :edit
-		end
-	end
+
 
 	def destroy
+		begin
 		@product = Product.find(params[:id])
 		@product.destroy
 		redirect_to products_path
+		rescue Exception => e
+			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to products_path
+		  end
+
+
 	end
 
-	def dashboard
-		@current_user = current_user;
-		@categories = Category.all;
-		@filter_category_id = session[:filter_category_id].to_i;
-		if session[:filter_category_id] == 'none'
-			@products = Product.all
-		else
-			@products  = Product.all(:conditions => { :category_id => session[:filter_category_id] })
-		end
-	end
+
 
 	private
 	def product_params
