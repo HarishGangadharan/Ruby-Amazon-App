@@ -37,7 +37,7 @@ class ProductsController < ApplicationController
 
 	def create
 		begin
-		  @product = Psdsdroduct.create(product_params)
+		  @product = Product.create(product_params)
 		  flash[:success] = 'Product Successfully Created!'
 		rescue Exception => e
 		  puts "e., #{e}"
@@ -194,9 +194,12 @@ class ProductsController < ApplicationController
 
 
 	def destroy
+		puts ">>>>}>>>>>>>>>>1111111111111>>>>>>>>>>>>>>.,"
+
 		begin
 		@product = Product.find(params[:id])
 		@product.destroy
+
 		redirect_to products_path
 		rescue Exception => e
 			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"

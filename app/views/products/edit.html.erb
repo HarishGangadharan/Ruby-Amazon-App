@@ -1,53 +1,55 @@
+<div class='container w-50'>
+<h2 class='text-center font-weight-bold m-4'> Edit Product </h2>
 <%= form_for @product do |f| %>
-<h1 style="text-align:center">Edit Product</h1>
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :name %>
-      <span style="margin-left: 5rem;">
-      <%= f.text_field :name %>
-      </span>
-   </div>
-</div>
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :description %>
-      <span style="margin-left: 2.53rem;">
-      <%= f.text_area :description %>
-      </span>
-   </div>
-</div>
-<div style="text-align:center;margin:30px">
-<div>
-   <%= f.label :price %>
-   <span style="margin-left: 5rem;">
-   <%= f.number_field :price %>
+
+
+   <div class="form-group">
+   <label for="name" class="text-info">Name:</label><br>
+   <span>
+   <%= f.text_field :name, :class => 'form-control' %>
    </span>
 </div>
-<div style="text-align:center;margin:30px">
-   <% if @product && @product.category_id %>
-   <div>
-      <label>Selected category</label>
-      <span style="margin-left: 5rem;">
-      <input type='text' name="login[email]" value = <%= @category_name%> readonly>
-      </span>
-   </div>
-   <% end %>
-   <div style="text-align:center;margin:30px">
-      <div>
-         <label>Choose category</label>
-         <span style="margin-left: 5rem;">
-            <select name="product[category_id]" style="width: 200px;
-               padding: 10px;">
-               <% @categories.each do |category| %>
-               <option
-                  value=<%= category.id%>><%= category.name%></option>
-               <% end %>
-            </select>
-         </span>
-      </div>
-   </div>
+
+<div class="form-group">
+<label for="description" class="text-info">Description:</label><br>
+<span>
+<%= f.text_area :description, :class => 'form-control h-auto' %>
+</span>
 </div>
-<div style="text-align:center;margin:3px">
-   <%= f.submit %>
+
+<div class="form-group">
+<label for="description" class="text-info">Price:</label><br>
+<span>
+<%= f.number_field :price, :class => 'form-control' %>
+</span>
 </div>
-<% end %>
+
+
+<div class="form-group">
+<div>
+<label for="Choose category" class="text-info">Choose category:</label><br>
+   <span>
+      <select name="product[category_id]" class="w-50 p-2">
+         <% @categories.each do |category| %>
+         <option
+            value=<%= category.id%>><%= category.name%></option>
+         <% end %>
+
+         
+      </select>
+   </span>
+</div>
+</div>
+
+
+<div class="form-group">
+<input type="submit" name="submit" class="btn btn-info btn-md w-100" value="submit">
+</div>
+
+
+
+
+<%end%>
+
+
+</div>

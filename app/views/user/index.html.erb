@@ -1,80 +1,87 @@
-<div>
-   <div style='display:flex; width:200px;margin:auto'>
-      <%# <input type=button value="Login" onclick="showLogin('register');"> %>
-      <%# <input type=button value="Register" onclick="showRegister('login');"> %>
-   </div>
-   <div id="login">
-      <h2 style="text-align:center">Login</h2>
-      <form action="/sessions" method="POST" style="text-align:center">
-         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>
-         <div style='margin: 30px;'>
-            <label>Username</label>
-            <input type='email' name="login[email]" placeholder='email'>
-         </div>
-         <div>
-            <label>Password</label>
-            <input type='password' name="login[password]" placeholder='password' value='qwert'>
-         </div>
-         <div style='margin: 30px 0 0 0;'>
-            <input type='submit' name='submit' class='submit'>
-                 <%= link_to "Forgot Password", forgotpassword_path,  
-   {:style=>'font-size:15px;color:blue', :class => ""} %>
-   </div>
-    <div>
-         Don't have account <a onclick= "showRegister('login');"> register </a>
+<div class="container">
+    <div  class="row justify-content-center align-items-center" id = 'login'>
+        <div  class="col-md-6 bg-color-blueLight  mt-5 p-4">
+            <div  class="col-md-12">
+                <form  class="form" action="/sessions" method="post">
+                    <h2 class="text-info font-weight-bold">Sign in</h2>
+                    <div class="form-group">
+                        <label for="username" class="text-info">Email Address:</label><br>
+                        <input type='hidden' name='authenticity_token'
+                         value='<%= form_authenticity_token%>'>
+                        <input type="text" name="login[email]" placeholder='Username'
+                         class="form-control">
+                    </div>
+                    <div class="form-group">
+                     <div class="d-flex justify-content-between">
+                     <label for="password" class="text-info">Password:</label><br>
+                     <%= link_to "Forgot Password", forgotpassword_path,  
+                     { :class => "text-info"} %>
+                     </div>
+                     <input type="password" name="login[password]" placeholder='Password' value='qwert'
+                     class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                        <a onclick='showRegister("login")' class="text-info a-color">Register here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
 
-         </div>
-         </div>
-        
-      </form>
-    
-   </div>
-   <div id="register" style='display:none'>
-      <br>
-      <h2 style="text-align:center">Registration</h2>
-      <form action="/users" method="POST" style="text-align:center">
-         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>
-         <div style='margin: 30px;'>
-            <label>Username</label>
-            <input type='name' name="user[name]" placeholder='name' style='margin-left: 5rem;'>
-         </div>
-         <input type='hidden' name="user[is_admin]" placeholder='name' style='margin-left: 5rem;' value=false>
-         <div style='margin: 30px;'>
-            <label>Email</label>
-            <input type='email' name="user[email]" placeholder='email' style='margin-left: 7rem;'>
-         </div>
-         <div style='margin: 30px;'>
-            <label>Password</label>
-            <input type='password' name="user[password]" placeholder='password' style='margin-left: 5rem;'>
-         </div>
-         <div style='margin: 30px;'>
-            <label>Re-Enter Password</label>
-            <input type='password' name="user[password_confirmation]" placeholder='password' style='margin-left: 1rem;'>
-         </div>
-         <div style='margin: 30px;'>
-            <input type='submit' name='submit' class='submit'>
-         </div>
-      </form>
-      
-   </div>
-</div>
-<script language="javascript" type="text/javascript">
+        <div  class="row justify-content-center align-items-center" id = 'register' style='display:none'>
+        <div  class="col-md-6 bg-color-blueLight  mt-5 p-4">
+            <div  class="col-md-12">
+                <form  class="form" action="/users" method="post">
+                    <h2 class="text-info font-weight-bold">Register</h2>
+                    <div class="form-group">
+                        <label for="username" class="text-info">Username:</label><br>
+                        <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>
+                        <input type='hidden' name="user[is_admin]" placeholder='name'  value=false>
+                        <input type="text" name="user[name]" placeholder='Username'
+                         class="form-control">
+                    </div>
+                    <div class="form-group">
+                    <label for="email" class="text-info">Email:</label><br>
+                    <input type="text" name="user[email]"  placeholder='Email' class="form-control">
+                </div>
+                
+                    <div class="form-group">
+                        <label for="password" class="text-info">Password:</label><br>
+                        <input type="password" name="user[password]" placeholder='Password' class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                    <label for="password" class="text-info">Re-Confirm Password:</label><br>
+                    <input type="password" name="user[password_confirmation]" placeholder='Re-Enter Password' class="form-control">
+                </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        </div>
+
+
+    <script language="javascript" type="text/javascript">
    function showRegister(elementId) {
        if (document.getElementById) {
-           var logElement = document.getElementById(elementId);
+          
+          var logElement = document.getElementById(elementId);
            logElement.style.display = 'none';
-           var RegElement = document.getElementById('register');
-           RegElement.style.display = 'block';
+           var RegElement = document.getElementById("register");
+           RegElement.style.display = 'inline-flex';
        }
    }
-   
-   
+      
       function showLogin(elementId) {
        if (document.getElementById) {
            var regElement = document.getElementById(elementId);
            regElement.style.display = 'none';
            var logElement = document.getElementById('login');
-           logElement.style.display = 'block';
+           logElement.style.display = 'inline-flex';
        }
    }
 </script>

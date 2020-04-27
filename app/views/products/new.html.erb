@@ -1,54 +1,59 @@
+<div class='container w-50'>
+<h2 class='text-center font-weight-bold m-4'> Create new Product </h2>
 <%= form_for @product , html: { multipart: true  }  do |f| %>
-<h1 style="text-align:center">Create new Product</h1>
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :name %>
-      <span style="margin-left: 5rem;">
-      <%= f.text_field :name %>
-      </span>
-   </div>
+
+<div class="form-group">
+<label for="image" class="text-info">Image:</label><br>
+<span>
+<%= f.file_field :image %>
+</span>
 </div>
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :description %>
-      <span style="margin-left: 2.53rem;">
-      <%= f.text_area :description %>
-      </span>
-      <span style='display:none'>
-      <input type='hidden' name="product[created_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
-      <input type='hidden' name="product[modified_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
-      </span>
-   </div>
+
+   <div class="form-group">
+   <label for="name" class="text-info">Name:</label><br>
+   <span>
+   <%= f.text_field :name, :class => 'form-control' %>
+   </span>
 </div>
-<div style="text-align:center;margin:30px">
+
+<div class="form-group">
+<label for="description" class="text-info">Description:</label><br>
+<span>
+<%= f.text_area :description, :class => 'form-control' %>
+</span>
+</div>
+
+<input type='hidden' name="product[created_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
+<input type='hidden' name="product[modified_by]" placeholder='name' value='<%= @current_user && @current_user.email%>'>
+         
+<div class="form-group">
+<label for="price" class="text-info">Price:</label><br>
+<span>
+<%= f.number_field :price, :class => 'form-control' %>
+</span>
+</div>
+
+
+<div class="form-group">
 <div>
-   <%= f.label :price %>
-   <span style="margin-left: 5rem;">
-   <%= f.number_field :price %>
+<label for="Category" class="text-info">Category:</label><br>
+   <span>
+      <select name="product[category_id]" class="w-50 p-2">
+         <% @categories.each do |category| %>
+         <option value=<%= category.id%>><%= category.name%></option>
+         <% end %>
+      </select>
    </span>
 </div>
-<div style='text-align: center;
-   margin: 30px;display:flex;justify-content:center'>
-   <%= f.label :image %>
-   <span style="margin-left: 2.53rem;">
-   <%= f.file_field :image %>
-   </span>
 </div>
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :category %>
-      <span style="margin-left: 5rem;">
-         <select name="product[category_id]" style="width: 200px;
-            padding: 10px;">
-            <% @categories.each do |category| %>
-            <option value=<%= category.id%>><%= category.name%></option>
-            <% end %>
-         </select>
-      </span>
-   </div>
+
+
+
+<div class="form-group">
+<input type="submit" name="submit" class="btn btn-info btn-md w-100" value="submit">
 </div>
-<div style="text-align:center;margin:3px">
-   <%= f.submit %>
+
+<%end%>
+
 </div>
-<% end %>

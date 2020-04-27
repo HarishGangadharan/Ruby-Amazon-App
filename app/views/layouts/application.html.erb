@@ -31,7 +31,7 @@
       <!-- Size should be 32 x 32 pixels -->
       <%= favicon_link_tag 'images/favicon.ico', :rel => 'shortcut icon' %>
    </head>
-   <body class="metrouicss">
+   <body class="metrouicss bg-color-lighten">
       <div class="page">
          <div class="nav-bar">
             <div class="nav-bar-inner padding10" >
@@ -44,39 +44,43 @@
                </a>
                <% if @current_user && @current_user.id != '' %>
                <%= link_to "Products", products_path,  
-                  {:style=>'margin:30px;color:white', :class => ""} %>
+                  {:class => "text-white m-3"} %>
                <%= link_to "Categories", categories_path,  
-                  {:style=>'margin:30px;color:white', :class => ""} %>
-                            <%= link_to "Orders", orders_path,  
-                  {:style=>'margin:30px;color:white', :class => ""} %>
-               <span style="float:right; color:white;margin:0px 30px;display:flex">
+               {:class => "text-white m-3"} %>
+               <%= link_to "Orders", orders_path,  
+               {:class => "text-white m-3"} %>
+               <span 
+               class='d-flex text-white float-right'>
 
-               <span style=" color:black;margin:0px 0px;">
-               <%= link_to  profile_path , 
-                 {:style=>'margin:10px;color:white', :class => ""} do %>
-                 <i class="fa fa-user"></i>
-               <% end %>
-               </span>
+        
 
-
-
-
-
-
-
-               <span style=" color:black;margin:0px 0px;">
+               <span style="text-black">
                <%= link_to  logout_path , 
-                 {:style=>'margin:10px;color:white', :class => ""} do %>
+                 {:class => "text-white m-4"} do %>
                  <i class="fa fa-sign-out"></i>
                <% end %>
                </span>
-
-
                
 
                </span>
-               <span style="float:right; color:white">
-               <%= @current_user && @current_user.email%>
+         
+               <span class="text-white float-right">
+
+               <%= link_to  profile_path , 
+               {} do %>
+
+
+                  <%= image_tag(@current_user.image.to_s == '/images/original/missing.png' ? 
+                  '/assets/profile.jpg'  : @current_user.image, 
+                 {:style =>" border-radius: 50px;margin:0 10px;
+                 max-height: 30px;"}) %>
+
+
+             <% end %>
+
+
+               
+               <%= @current_user && @current_user.firstname%>
                </span>
                
                <% end %>
@@ -91,7 +95,7 @@
                </div>
             </div>
          </div>
-         <div class="nav-bar" style="">
+         <div class="nav-bar">
             <div class="nav-bar-inner" style="  position: fixed;
                left: 0;
                bottom: 0;

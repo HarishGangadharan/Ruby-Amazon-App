@@ -48,6 +48,7 @@ GEM
     concurrent-ruby (1.1.6)
     erubis (2.7.0)
     execjs (2.7.0)
+    ffi (1.9.25)
     hike (1.2.3)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
@@ -106,6 +107,15 @@ GEM
       sass (~> 3.2.2)
       sprockets (~> 2.8, < 3.0)
       sprockets-rails (~> 2.0)
+    sassc (1.2.0)
+      bundler
+      ffi (~> 1.9.6)
+    sassc-rails (0.1.0)
+      rails (>= 4.0.0)
+      sass
+      sassc (~> 1.2.0)
+      sprockets (> 2.11)
+      tilt
     sdoc (1.1.0)
       rdoc (>= 5.0)
     sprockets (2.12.5)
@@ -140,7 +150,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
-  bootstrap-sass (~> 3.2.0)
+  bootstrap-sass
   carrierwave
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
@@ -150,6 +160,7 @@ DEPENDENCIES
   paperclip (~> 4.2)
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
+  sassc-rails
   sdoc
   therubyracer
   toastr-rails

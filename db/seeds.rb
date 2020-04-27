@@ -9,7 +9,9 @@
 
 user = User.new(
     :name => 'harish',
-    :email => 'harish@gmail.com', 
+    :email => 'harishjamsx@gmail.com', 
+    :firstname => 'harish',
+
     :password => 'qwert',
     :password_confirmation => 'qwert',
     :is_admin => true,

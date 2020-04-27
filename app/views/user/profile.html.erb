@@ -1,80 +1,76 @@
-<div style='text-align:center'>
+<div class='container w-50'>
+<h2 class='text-center font-weight-bold m-4'> Account Details </h2>
+<%= form_for :user, url: user_saveprofile_path(),  html: { multipart: true  }  do |f| %>
 
-      <h2>Account Details </h2>
-     <%= form_for :user, url: user_saveprofile_path(),  html: { multipart: true  }  do |f| %>
-         <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token%>'>
-<div style='    text-align: center;
-   margin: 30px;'>
-   <%= f.label :Profile_Picture %>
-   <span style="margin-left: 2.53rem;">
-   <%# <input type="file" id="myfile" name="product[image]"> %>
-   <%= f.file_field :image %>
+
+
+
+
+   <div class="form-group text-center">
+   <% if  @current_user.image.to_s != '/images/original/missing.png' %>
+   <%= image_tag( @current_user.image, {:class => 'img-thumbnail rounded-circle w-25 my-3'}) %>
+   <% end %>
+
+<span>
+<%= f.file_field :image,  :class => 'mb-3' %>
+</span>
+</div>
+
+   <div class="form-group">
+   <label for="Username" class="text-info">Username:</label><br>
+   <span>
+   <%= f.text_field :name,  :disabled => true , :class => 'form-control' %>
    </span>
 </div>
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Username %>
-      <span style="margin-left: 5rem;">
-      <%= f.text_field :name,  :disabled => true %>
-      </span>
-   </div>
+<div class="form-group">
+<label for="Email" class="text-info">Email:</label><br>
+<span>
+<%= f.text_field :email,  :disabled => true , :class => 'form-control' %>
+</span>
 </div>
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Email %>
-      <span style="margin-left: 7rem;">
-      <%= f.text_field :email,  :disabled => true %>
-      </span>
-   </div>
+<div class="form-group">
+<label for="Firstname" class="text-info">Firstname:</label><br>
+<span>
+<%= f.text_field :firstname, :class => 'form-control' %>
+</span>
 </div>
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Firstname %>
-      <span style="margin-left: 5rem;">
-      <%= f.text_field :firstname %>
-      </span>
-   </div>
+<div class="form-group">
+<label for="Lastname" class="text-info">Lastname:</label><br>
+<span>
+<%= f.text_field :lastname, :class => 'form-control' %>
+</span>
 </div>
 
-
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Lastname %>
-      <span style="margin-left: 5rem;">
-      <%= f.text_field :lastname %>
-      </span>
-   </div>
+<div class="form-group">
+<label for="Mobile" class="text-info">Mobile:</label><br>
+<span>
+<%= f.number_field :mobile, :class => 'form-control' %>
+</span>
 </div>
 
 
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Mobile  %>
-      <span style="margin-left: 6rem;">
-      <%= f.number_field :mobile %>
-      </span>
-   </div>
+
+<div class="form-group">
+<label for="Address" class="text-info">Address:</label><br>
+<span>
+<%= f.text_area :address, :class => 'form-control' %>
+</span>
+</div>
+
+<div class="form-group">
+<input type="submit" name="submit" class="btn btn-info btn-md w-100" value="submit">
 </div>
 
 
 
-<div style="text-align:center;margin:30px">
-   <div>
-      <%= f.label :Address  %>
-      <span style="margin-left: 6rem;">
-      <%= f.text_area :address %>
-      </span>
-   </div>
-</div>
-<div style="text-align:center;margin:3px">
-   <%= f.submit "Save" %>
-</div>
+
+<% end %>
 
 
-    <% end %>
- 
+
+
 </div>

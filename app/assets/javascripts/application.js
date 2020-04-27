@@ -17,7 +17,7 @@
 //= require_tree .
 
 //= require bootstrap
-
+//= require bootstrap-sprockets
 //= require toastr
 
 $(document).ready(function() {
