@@ -1,13 +1,13 @@
 class ProductsController < ApplicationController
 
-	before_action :is_signed_in?
-	def is_signed_in?
-		if session[:user_id] 
-			puts "is_signed_in"
-		else 
-			redirect_to '/'
-		end
-	end
+	# before_action :is_signed_in?
+	# def is_signed_in?
+	# 	if session[:user_id] 
+	# 		puts "is_signed_in"
+	# 	else 
+	# 		redirect_to '/'
+	# 	end
+	# end
 
 	def index
 
@@ -102,32 +102,28 @@ class ProductsController < ApplicationController
 		end
 	
 
-		def dashboard
-			begin
-				@current_user = current_user;
-				@categories = Category.all;
-				@filter_category_id = session[:filter_category_id].to_i;
-				if session[:filter_category_id] == 'none'
-					@products = Product.all
-				else
-					@products  = Product.all(:conditions => { :category_id => session[:filter_category_id] })
-				end
-			rescue Exception => e
-				puts "e, #{e}"
-				flash[:error] = 'Sorry! Something went wrong.Please try again'
-				redirect_to products_path
-			  end
-		end
+		# def dashboard
+		# 	begin
+		# 		@current_user = current_user;
+		# 		@categories = Category.all;
+		# 		@filter_category_id = session[:filter_category_id].to_i;
+		# 		if session[:filter_category_id] == 'none'
+		# 			@products = Product.all
+		# 		else
+		# 			@products  = Product.all(:conditions => { :category_id => session[:filter_category_id] })
+		# 		end
+		# 	rescue Exception => e
+		# 		puts "e, #{e}"
+		# 		flash[:error] = 'Sorry! Something went wrong.Please try again'
+		# 		redirect_to products_path
+		# 	  end
+		# end
 
 
 		def reset
 			begin
 				session[:filter_category_id] = 'none';
-				if   product_params[:page] == 'dashboard'
-					redirect_to dashboard_path
-				else
-					redirect_to products_path
-				end
+				redirect_to products_path
 			rescue Exception => e
 				puts "e, #{e}"
 				flash[:error] = 'Sorry! Something went wrong.Please try again'
@@ -139,11 +135,7 @@ class ProductsController < ApplicationController
 		def filter
 			begin
 			  session[:filter_category_id] =  product_params[:filter_category_id];
-			  if   product_params[:page] == 'dashboard'
-				  redirect_to dashboard_path
-			  else
-				  redirect_to products_path
-			  end
+				redirect_to products_path
 			rescue Exception => e
 			  puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
 			  flash[:error] = 'Sorry! Something went wrong.Please try again'
@@ -194,13 +186,17 @@ class ProductsController < ApplicationController
 
 
 	def destroy
-		puts ">>>>}>>>>>>>>>>1111111111111>>>>>>>>>>>>>>.,"
 
 		begin
 		@product = Product.find(params[:id])
 		@product.destroy
+		flash[:success] = 'Product Successfully Deleted!'
 
-		redirect_to products_path
+		respond_to do |format|
+			format.html { redirect_to products_url }
+			format.json { head :no_content }
+		end
+
 		rescue Exception => e
 			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
 			flash[:error] = 'Sorry! Something went wrong.Please try again'
@@ -210,7 +206,45 @@ class ProductsController < ApplicationController
 
 	end
 
+	def view
+	 begin
+		vars = request.query_parameters
+		@current_user = current_user;
+		@product = Product.find_by(id:vars['product'])
+	 rescue Exception => e
+		puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+		flash[:error] = 'Sorry! Something went wrong.Please try again'
+		redirect_to products_path
+	  end
+	end
 
+
+	def purchaseproducts
+		begin
+			vars = request.query_parameters
+			@current_user = current_user;
+			session[:purchasedproducts] =  vars['product']
+
+			if current_user != nil
+				@product = Product.find_by(id:session[:purchasedproducts])
+				redirect_to new_order_path
+
+
+			else
+
+				flash[:warning] = 'Please login to continue'
+				redirect_to login_path
+
+
+			end
+
+			# @product = Product.find_by(id:vars['product'])
+		 rescue Exception => e
+			puts ">>>>}>>>>>>>>>>>>>>>>>>>>>>>>., #{e}"
+			flash[:error] = 'Sorry! Something went wrong.Please try again'
+			redirect_to products_path
+		  end
+	end
 
 	private
 	def product_params

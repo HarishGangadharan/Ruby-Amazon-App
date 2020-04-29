@@ -1,15 +1,15 @@
 class CategoriesController < ApplicationController
 
 	before_action :set_category, only: [:show, :edit, :update, :destroy]
-	before_action :is_signed_in?
+	# before_action :is_signed_in?
 
-	def is_signed_in?
-	   if session[:user_id] 
-	    	puts "is_signed_in"
-		else 
-			redirect_to '/'
-		end
-	end
+	# def is_signed_in?
+	#    if session[:user_id] 
+	#     	puts "is_signed_in"
+	# 	else 
+	# 		redirect_to '/'
+	# 	end
+	# end
 
 	# GET /categories
 	# GET /categories.json
@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
 		rescue Exception => e
 			puts "e., #{e}"
 			flash[:error] = 'Sorry! Something went wrong.Please try again'
-			redirect_to dashboard_path
+			redirect_to '/'
 		end
 	end
 
@@ -121,6 +121,8 @@ class CategoriesController < ApplicationController
 	def destroy
 		begin
 			@category.destroy
+			flash[:success] = 'Category Successfully Deleted!'
+
 			respond_to do |format|
 				format.html { redirect_to categories_url }
 				format.json { head :no_content }

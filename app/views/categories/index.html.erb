@@ -1,7 +1,7 @@
 <div class='container '>
- <div class='col-md-12 p-4'>
+ <div class='col-md-12'>
  <h2 class="text-center my-3 font-weight-bold">Category list</h2>
- <% if @current_user.is_admin == true %>
+ <% if  @current_user && @current_user.is_admin == true %>
  <%= link_to "Create new category ", new_category_path,  
  {:class => "btn btn-default text-black-50"} %>
  <% end %>
@@ -18,7 +18,7 @@
 <div class="card-body">
 <div class=' mb-4 d-flex justify-content-between'>
   <h3 class="card-title font-weight-bold"><%= category.name %></h3>
-  <% if @current_user.is_admin == true %>
+  <% if @current_user &&  @current_user.is_admin == true %>
 
   <%= form_for :category, url: categories_viewproducts_path() do |f|  %>
    <input type='hidden' name="current_category" placeholder='name' value='<%=category.id%>'>
@@ -29,7 +29,7 @@
   </div>
 
   <p class="card-text mb-4"><%= category.desccriptioin %></p>
-  <% if @current_user.is_admin == true %>
+  <% if  @current_user &&  @current_user.is_admin == true %>
 
   <%= link_to 'Edit', edit_category_path(category) , 
   { :class => "btn btn-primary text-light "}%>

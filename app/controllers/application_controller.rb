@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
   
   def current_user 
     id = session[:user_id] 
-	user = User.find(id);
-	return user;
+    if  id != nil
+      user = User.find(id);
+      return user;
+    end
+    return nil;
+
   end
 end

@@ -2,7 +2,7 @@
 <h2 class='text-center font-weight-bold m-4'> Create new Product </h2>
 <%= form_for @product , html: { multipart: true  }  do |f| %>
 
-
+<div class='d-flex'>
 <div class="form-group">
 <label for="image" class="text-info">Image:</label><br>
 <span>
@@ -10,12 +10,29 @@
 </span>
 </div>
 
+<div class="form-group w-50">
+<div>
+<label for="Category" class="text-info">Category:</label><br>
+   <span>
+      <select name="product[category_id]" class="w-100 p-2">
+         <% @categories.each do |category| %>
+         <option value=<%= category.id%>><%= category.name%></option>
+         <% end %>
+      </select>
+   </span>
+</div>
+</div>
+</div>
+
+
    <div class="form-group">
    <label for="name" class="text-info">Name:</label><br>
    <span>
    <%= f.text_field :name, :class => 'form-control' %>
    </span>
 </div>
+
+
 
 <div class="form-group">
 <label for="description" class="text-info">Description:</label><br>
@@ -35,23 +52,11 @@
 </div>
 
 
-<div class="form-group">
-<div>
-<label for="Category" class="text-info">Category:</label><br>
-   <span>
-      <select name="product[category_id]" class="w-50 p-2">
-         <% @categories.each do |category| %>
-         <option value=<%= category.id%>><%= category.name%></option>
-         <% end %>
-      </select>
-   </span>
-</div>
-</div>
 
 
 
-<div class="form-group">
-<input type="submit" name="submit" class="btn btn-info btn-md w-100" value="submit">
+<div class="d-flex justify-content-center my-5">
+<input type="submit" name="submit" class="btn btn-info btn-md w-25" value="submit">
 </div>
 
 <%end%>

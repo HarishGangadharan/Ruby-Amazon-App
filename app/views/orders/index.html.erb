@@ -1,6 +1,6 @@
 <h1 style="text-align:center">Order list</h1>
 
-<% if @current_user.is_admin %>
+<% if  @current_user &&  @current_user.is_admin %>
   
    <div style='display:flex;justify-content: flex-end;
     margin: 20px 40px;align-items:center'>

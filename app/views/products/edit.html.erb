@@ -2,7 +2,22 @@
 <h2 class='text-center font-weight-bold m-4'> Edit Product </h2>
 <%= form_for @product do |f| %>
 
-
+   <div class="form-group">
+   <div>
+   <label for="Choose category" class="text-info">Choose category:</label><br>
+      <span>
+         <select name="product[category_id]" class="w-50 p-2">
+            <% @categories.each do |category| %>
+            <option
+               value=<%= category.id%>><%= category.name%></option>
+            <% end %>
+   
+            
+         </select>
+      </span>
+   </div>
+   </div>
+   
    <div class="form-group">
    <label for="name" class="text-info">Name:</label><br>
    <span>
@@ -25,25 +40,10 @@
 </div>
 
 
-<div class="form-group">
-<div>
-<label for="Choose category" class="text-info">Choose category:</label><br>
-   <span>
-      <select name="product[category_id]" class="w-50 p-2">
-         <% @categories.each do |category| %>
-         <option
-            value=<%= category.id%>><%= category.name%></option>
-         <% end %>
-
-         
-      </select>
-   </span>
-</div>
-</div>
 
 
-<div class="form-group">
-<input type="submit" name="submit" class="btn btn-info btn-md w-100" value="submit">
+<div class="d-flex justify-content-center my-5">
+<input type="submit" name="submit" class="btn btn-info btn-md w-25" value="submit">
 </div>
 
 

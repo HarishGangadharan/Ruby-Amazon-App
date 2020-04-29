@@ -1,15 +1,15 @@
 <div class='container'>
-<div class='col-md-12 p-4'>
+<div>
 <h2 class="text-center my-3 font-weight-bold">Product list</h2>
 
-<div class='align-content-center d-flex justify-content-between'>
-<% if @current_user.is_admin == true %>
+<div class='align-content-center d-flex justify-content-around '>
+<% if @current_user && @current_user.is_admin == true %>
 <%= link_to "Create new product ", new_product_path,  
-   { :class => "btn btn-default text-black-50 h-100"} %>
+   { :class => "btn btn-default text-black-50 h-100 ml-4"} %>
 <% end %>
 <% if  @products.length != 0 %>
 <div class='d-flex mb-3'>
-   <label for="categories" class="text-info">Categories:</label><br>
+   <label for="categories" class="">Sort by categories:</label><br>
 
    <%= form_for :product, url: products_filter_path() do |f| %>
    <span class="m-4">
@@ -38,39 +38,46 @@
 <% if  @products.length == 0 %>
 <h2 class="text-center">No Product list to be shown</h2>
 <% else %>
-<div class='row w-100 ml-5'>
+
+<div class='row' style='margin-left:100px'>
 
 <% @products.each_with_index do |product, index| %>
 
+   <%= link_to  viewproducts_path(request.query_parameters.merge({ product:   product.id })) , {:class => "text-black"} do %>
 
-<div class="card bg-color-blueLight h-auto col-md-5 " >
-<div class="card-body">
-<div class='d-flex'>
-<%= image_tag(product.image, {:class => 'img-thumbnail rounded-circle w-25'}) %>
-<div class='mt-5 ml-5'>
+   <div class="card bg-color-blueLight h-auto col-md-3 m-3 p-3" >
+   <div class="card-body p-2">
+      <div class=''>
+         <%= image_tag(product.image, {:class => 'img-thumbnail'}) %>
+            <div class='d-flex justify-content-between mt-2'>
+               <h3 class="card-title font-weight-bold text-center"><%= product.name %></h3>
+               <% if @current_user && @current_user.is_admin == true %>
+                  <%= link_to  edit_product_path(product) , {:class => "text-black"} do %>
+                     <i class="fa fa-edit"></i>
+                  <% end %>
+               <% end %>
 
-<h3 class="card-title font-weight-bold text-center"><%= product.name %></h3>
-<p class="card-text mb-4 font-weight-bold ">₹<%= product.price %></p>
-</div>
-</div>
+            </div>
+            <p class="card-text font-weight-bold text-body mb-2">Price : ₹ <%= product.price %></p>
 
-<p class="card-text my-3"><%= product.description %></p>
+            <%= link_to "Purchase", purchaseproducts_path(request.query_parameters.merge({ product:   product.id })),
+               { :class => "btn btn-primary text-light"} %>
 
-<% if @current_user.is_admin == true %>
-<%= link_to "Edit", edit_product_path(product) ,
-{:class => "btn btn-primary text-light "} %>
-<% end %>
+            <% if @current_user && @current_user.is_admin == true %>
 
+               <%= link_to "Delete", product, method: :delete,
+                  data: { confirm: 'Are you sure to delete ?'  },  class: "btn btn-danger text-light" %>
+            <% end %>
+         </div>
+      </div>
 
-<%= link_to "Delete", product, method: :delete,
-data: { confirm: 'Are you sure to delete ?'  },  class: "btn btn-danger text-light" %>
-</div>
+   </div>
 
-
-</div>
+   <% end %>
 
 
-<% end %>
+
+   <% end %>
 
 
 </div>

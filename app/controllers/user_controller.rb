@@ -2,16 +2,16 @@ class UserController < ApplicationController
 
  
 
-  before_action :is_signed_in?, only: [:create, :accountdetails, :forgotpassword, :resetpassword, :sendmail, :index]
+  # before_action :is_signed_in?, only: [:create, :accountdetails, :forgotpassword, :resetpassword, :sendmail, :index]
 
-  def is_signed_in?
-	   if session[:user_id] 
-        redirect_to dashboard_path
-	else 
-    # redirect_to '/'
-	end
+  # def is_signed_in?
+	#    if session[:user_id] 
+  #       redirect_to '/'
+	# else 
+  #   # redirect_to '/'
+	# end
 	
-    end
+  #   end
 
     def create
         begin  
@@ -48,10 +48,15 @@ class UserController < ApplicationController
 
    begin
     user = current_user;
+    puts ">>>>>>>>>>>>>>#{user_params}"
     user.firstname = user_params[:firstname]
     user.lastname = user_params[:lastname]
     user.mobile = user_params[:mobile]
-    user.address = user_params[:address]
+    user.addressline = user_params[:addressline]
+    user.street = user_params[:street]
+    user.city = user_params[:city]
+    user.pincode = user_params[:pincode]
+
     user.image = nil
     user.image = user_params[:image]
 
@@ -149,6 +154,6 @@ class UserController < ApplicationController
       def user_params
         params.require(:user).permit(:name, :email, :password,
            :password_confirmation, :is_admin, :firstname, :lastname ,
-            :mobile , :address, :routekey, :image)
+            :mobile , :addressline,:street,:city,:pincode, :routekey, :image)
       end
 end

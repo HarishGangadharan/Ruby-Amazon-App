@@ -45,14 +45,24 @@
                <% if @current_user && @current_user.id != '' %>
                <%= link_to "Products", products_path,  
                   {:class => "text-white m-3"} %>
-               <%= link_to "Categories", categories_path,  
-               {:class => "text-white m-3"} %>
-               <%= link_to "Orders", orders_path,  
-               {:class => "text-white m-3"} %>
+
+               <% end %>
+
                <span 
                class='d-flex text-white float-right'>
+                  <% if @current_user == nil %>
 
-        
+                  <span style="text-black">
+                  <%= link_to  login_path , 
+                    {:class => "text-white m-4"} do %>
+                    <i class="fa fa-sign-in"></i>
+                  <% end %>
+
+                  </span>
+                  <% end %>
+
+                  <% if @current_user && @current_user.id != '' %>
+
 
                <span style="text-black">
                <%= link_to  logout_path , 

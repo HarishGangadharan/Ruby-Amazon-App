@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200421160644) do
+ActiveRecord::Schema.define(version: 20200428051154) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -76,6 +76,10 @@ ActiveRecord::Schema.define(version: 20200421160644) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "pwdresettoken"
+    t.string   "addressline"
+    t.string   "street"
+    t.string   "city"
+    t.integer  "pincode"
   end
 
 end

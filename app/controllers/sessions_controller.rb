@@ -2,12 +2,19 @@ class SessionsController < ApplicationController
 
 	def create
 		begin  
+		
 			user = User.find_by(email: login_params[:email])
 			if user && user.authenticate(login_params[:password])
 				session[:user_id] = user.id
 				flash[:success] = "Welcome #{user.name}!"
 
-				redirect_to products_path
+				if session[:purchasedproducts] != nil 
+				
+					redirect_to new_order_path
+				else
+					redirect_to products_path
+				end
+
 			else 
 				flash[:error] = 'Invalid username or password'
 				# render :new
@@ -28,7 +35,7 @@ class SessionsController < ApplicationController
 		rescue Exception => e
 			puts "#{e}"
 			flash[:error] = 'Sorry! Sometime went wrong.Please try again'
-			redirect_to dashboard_path;
+			redirect_to '/';
 			# puts e.backtrace.inspect  
 		end  
 

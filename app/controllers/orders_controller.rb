@@ -1,13 +1,13 @@
 class OrdersController < ApplicationController
-	before_action :is_signed_in?
+	# before_action :is_signed_in?
 
-	def is_signed_in?
-		if session[:user_id] 
-			puts "is_signed_in"
-		else 
-			redirect_to '/'
-		end
-	end
+	# def is_signed_in?
+	# 	if session[:user_id] 
+	# 		puts "is_signed_in"
+	# 	else 
+	# 		redirect_to '/'
+	# 	end
+	# end
 
 
 	# def printorder
@@ -52,7 +52,7 @@ class OrdersController < ApplicationController
 		rescue Exception => e
 			puts "#{e}"
 			flash[:error] = 'Sorry! Something went wrong.Please try again'
-			redirect_to orders_path
+			redirect_to products_path
 			# puts e.backtrace.inspect  
 		end 
 	end
@@ -61,14 +61,9 @@ class OrdersController < ApplicationController
 		begin
 			@order = Order.new
 			@current_user = current_user;
-			@selectedproducts = [];
-			@sp = '';
-			params[:selectedproducts].each { |id|
-				@selectedproducts << Product.find(id);  
-				@sp = id 
-			}
-			session[:selectedproducts] = @sp;
-		rescue Exception => e
+			@product = Product.find_by(id:session[:purchasedproducts])
+			session[:purchasedproducts]= nil;	
+			rescue Exception => e
 			puts "#{e}"
 			flash[:error] = 'Sorry! Something went wrong.Please try again'
 			redirect_to orders_path

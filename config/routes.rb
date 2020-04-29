@@ -8,9 +8,11 @@ Store::Application.routes.draw do
 
 
   # User routes
-  root 'user#index'
+  root 'products#index'
   post '/users' => 'user#create'
   get 'profile' => 'user#profile'
+  get 'login' => 'user#index'
+
   post '/sessions' => 'sessions#create'
   post 'profile' => 'user#accountdetails'
   get 'forgotpassword' => 'user#forgotpassword'
@@ -25,7 +27,10 @@ Store::Application.routes.draw do
   post 'products/filter' => 'products#filter'
   post 'products/reset' => 'products#reset'
   post 'products/buy' => 'products#buy'
-  get 'dashboard' => 'products#dashboard'
+  get '/viewproducts' => 'products#view'
+  get '/purchaseproducts' => 'products#purchaseproducts'
+
+  # get 'dashboard' => 'products#dashboard'
 
  #Categories routes
   post 'categories/viewproducts' => 'categories#viewproducts'
