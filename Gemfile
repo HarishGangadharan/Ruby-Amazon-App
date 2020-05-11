@@ -48,6 +48,7 @@ gem 'bootstrap-sass'
 gem 'sassc-rails'
 gem 'jquery-rails'
 
+gem 'sucker_punch', '~> 2.0'
 
 # gem 'autoprefixer-rails'
 

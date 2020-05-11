@@ -61,8 +61,28 @@ class OrdersController < ApplicationController
 		begin
 			@order = Order.new
 			@current_user = current_user;
-			@product = Product.find_by(id:session[:purchasedproducts])
+			# @product = Product.find_by(id:session[:purchasedproducts])
 			session[:purchasedproducts]= nil;	
+
+
+			@cart = Cart.find_by customer_id: current_user.id
+				@products = []
+				@totalprice = 0
+
+			if 	@cart != nil
+				@cartItems  = CartItems.all(:conditions => { :cart_id => @cart.id})
+				@cartItems.each { |item|
+				@products << Product.find_by(id: item.product_id)
+			}
+			end
+
+			@products.each { |item|
+			@totalprice  = @totalprice + item.price
+		}
+
+
+
+
 			rescue Exception => e
 			puts "#{e}"
 			flash[:error] = 'Sorry! Something went wrong.Please try again'
@@ -118,7 +138,7 @@ class OrdersController < ApplicationController
 			vars = request.query_parameters
 			@current_user = current_user;
 			@orderDetails = Order.find_by(id:vars['order'])
-			products = Product.all
+			products  = Product.all(:conditions => { :status =>  'active'})
 			products.each { |product|
 			if product.name == @orderDetails.name
 				@product = product;

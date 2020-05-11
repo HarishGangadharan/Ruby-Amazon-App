@@ -1,113 +1,98 @@
 <div class='container'>
-  <%if @product == nil %>
-  <h2 class="text-center my-3 font-weight-bold">No product has been selected to purchase</h2>
+   <%if @products.length == 0 %>
+   <h2 class="text-center my-3 font-weight-bold">No product has been selected to purchase</h2>
+   <%else%>
+   <h2 class="text-center my-3 font-weight-bold">Choose delivery address</h2>
+   <div class='w-100  my-3 d-flex'>
+      <% @products.each do |product| %>
+      <div class="card bg-color-blueLight h-auto w-25 " >
+         <div class="card-body">
+            <%= image_tag(product.image, {:class => 'img-thumbnail'}) %>
+            <div class='d-flex justify-content-between mt-4'>
+               <h3 class="card-title font-weight-bold text-center"><%= product.name %></h3>
+            </div>
+            <p class="card-text mb-4 "><%= product.description %></p>
+            <p class="card-text mb-4 font-weight-bold ">Total Price : ₹ <%= product.price %></p>
+            <%= link_to "Remove", removeproduct_path(request.query_parameters.merge({ product:   product.id })),
+               { :class => "btn btn-primary text-light"} %>
+         </div>
+      </div>
+      <%end %>
+      <div class='m-auto'>
+         <div class=" border-color-grayDark h-25 mr-3 p-3 rounded-circle" >
+            <%= link_to  products_path , 
+               {:class => "text-body"} do %>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <% end %>
+         </div>
+      </div>
+   </div>
+   <%= form_for :user, url: user_saveprofile_path(),  html: { multipart: true  }  do |f| %>
+   <div class='d-flex w-100'>
+      <div class="card bg-color-blueLight h-auto  col-md-9 " >
+         <div class="card-body">
+            <input type="checkbox" id="myCheck" onclick="setDefaultAddress()">
+            <label for="default address" class="">Default Shipping Address</label><br>
+            <div class="form-group">
+               <label for="addressline" class="text-info">Address line :</label><br>
+               <span>
+               <%= f.text_field :address1,   :class => 'form-control', :id => 'address1' %>
+               </span>
+            </div>
+            <div class="form-group">
+               <label for="addressline2" class="text-info">Address line 2:</label><br>
+               <span>
+               <%= f.text_field :address2,   :class => 'form-control', :id => 'street' %>
+               </span>
+            </div>
+            <div class="form-group">
+               <label for="town" class="text-info">Town:</label><br>
+               <span>
+               <%= f.text_field :city,   :class => 'form-control', :id => 'city' %>
+               </span>
+            </div>
+            <div class="form-group">
+               <label for="pincode" class="text-info">Pincode:</label><br>
+               <span>
+               <%= f.number_field :pincode,   :class => 'form-control', :id => 'pincode' %>
+               </span>
+            </div>
+            <div class="form-group">
+               <label for="mobile" class="text-info">Mobile:</label><br>
+               <span>
+               <%= f.number_field :mobile,   :class => 'form-control', :id => 'mobile' %>
+               </span>
+            </div>
+         </div>
+      </div>
 
 
+      <div class="card bg-color-blueLight h-auto  col-md-3 p-3" 
+     >
 
-  <%else%>
+      <div class="text-center">
+      <h3 class="card-title font-weight-bold text-center">Total Price : <%= number_to_indian_currency( @totalprice ) %></h3>
+      <%= link_to "Purchase", purchaseproducts_path,
+         { :class => "btn btn-primary text-light mx-3"} %>
+   </div>
 
+      </div
+   </div>
 
-
-  <h2 class="text-center my-3 font-weight-bold">Choose delivery address</h2>
-  <%= form_for :user, url: user_saveprofile_path(),  html: { multipart: true  }  do |f| %>
-  <div class='d-flex'>
-
-     <div class="card bg-color-blueLight h-auto w-25 " >
-        <div class="card-body">
-           <%= image_tag(@product.image, {:class => 'img-thumbnail'}) %>
-           <div class='d-flex justify-content-between mt-4'>
-              <h3 class="card-title font-weight-bold text-center"><%= @product.name %></h3>
-           </div>
-           <p class="card-text mb-4 "><%= @product.description %></p>
-           <p class="card-text mb-4 font-weight-bold ">Total Price : ₹ <%= @product.price %></p>
-
-           <div class="d-flex">
-              <label for="quantity" class="text-info">Quantity:</label><br>
-              <span>
-                 <%= f.number_field :quantity,   :class => 'form-control' %>
-              </span>
-           </div>
-        </div>
-     </div>
-
-
-     
-
-     <div class="card bg-color-blueLight h-auto w-50 " >
-        <div class="card-body">
-           <div class="form-group">
-              <label for="addressline1" class="text-info">Address line 1:</label><br>
-              <span>
-                 <%= f.text_field :address1,   :class => 'form-control' %>
-              </span>
-           </div>
-
-<div class="form-group">
-<label for="addressline2" class="text-info">Address line 2:</label><br>
-<span>
-<%= f.text_field :address2,   :class => 'form-control' %>
-</span>
+   <%end %>
+   <%end%>
 </div>
-
-<div class="form-group">
-<label for="town" class="text-info">Town:</label><br>
-<span>
-<%= f.text_field :town,   :class => 'form-control' %>
-</span>
-</div>
-
-<div class="form-group">
-<label for="state" class="text-info">State:</label><br>
-<span>
-<%= f.text_field :state,   :class => 'form-control' %>
-</span>
-</div>
-
-<div class="form-group">
-<label for="pincode" class="text-info">Pincode:</label><br>
-<span>
-<%= f.number_field :pincode,   :class => 'form-control' %>
-</span>
-</div>
-
-<div class="form-group">
-<label for="mobile" class="text-info">Mobile:</label><br>
-<span>
-<%= f.number_field :mobile,   :class => 'form-control' %>
-</span>
-</div>
-
-<%= f.check_box :paid %>
-<label for="default address" class="">Default Shipping Address</label><br>
-
-
-
-
-</div>
-
-
-
-
-</div>
-
-<div class="card bg-color-blueLight h-100 w-25 " >
-<div class="card-body text-center">
-  
-   <h3 class="card-title font-weight-bold text-center">Total Price : <%= @product.price %></h3>
-
-   <%= link_to "Purchase", purchaseproducts_path,
-   { :class => "btn btn-primary text-light my-3"} %>
-</div>
-</div>
-
-
-</div>
-
-
-<%end %>
-
-
-  <%end%>
-
-
-</div>
+<script language="javascript" type="text/javascript">
+   function setDefaultAddress() {
+     document.getElementById('address1').value = '<%= @current_user.addressline%>'
+     document.getElementById('street').value = '<%= @current_user.street%>'
+   
+     document.getElementById('city').value = '<%= @current_user.city%>'
+   
+     document.getElementById('pincode').value = '<%= @current_user.pincode%>'
+     document.getElementById('mobile').value = '<%= @current_user.mobile%>'
+   
+   }
+   
+   
+</script>

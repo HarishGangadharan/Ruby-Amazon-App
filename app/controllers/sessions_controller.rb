@@ -9,6 +9,31 @@ class SessionsController < ApplicationController
 				flash[:success] = "Welcome #{user.name}!"
 
 				if session[:purchasedproducts] != nil 
+
+
+					@carts  = Cart.all(:conditions => { :customer_id => user.id})
+
+
+					if @carts.length == 0 
+					  @cart = Cart.create({customer_id: user.id})
+					else
+					  @cart = Cart.find_by customer_id: user.id
+					end
+					@cartItem = CartItems.find_by cart_id: @cart.id , 
+					product_id:  session[:purchasedproducts]
+
+					if @cartItem == nil
+
+						CartItems.create({quantity: "1",
+						cart_id: @cart.id, product_id: session[:purchasedproducts]})
+	
+					 else
+						flash[:warning] = 'Product already in cart'
+					 end
+
+
+
+
 				
 					redirect_to new_order_path
 				else
@@ -30,7 +55,9 @@ class SessionsController < ApplicationController
 
 	def destroy    
 		begin
-			session[:user_id] = nil     
+			session[:user_id] = nil
+			session[:sortKey] = nil     
+			session[:filter_category_id] = nil
 			redirect_to '/' 
 		rescue Exception => e
 			puts "#{e}"

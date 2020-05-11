@@ -7,6 +7,8 @@ Store::Application.routes.draw do
   resources :products
 
 
+  
+
   # User routes
   root 'products#index'
   post '/users' => 'user#create'
@@ -23,12 +25,21 @@ Store::Application.routes.draw do
   post 'user/saveprofile' => 'user#saveprofile'
 
   #Product routes
-  
+
+  post 'products/sort' => 'products#sort'
+
   post 'products/filter' => 'products#filter'
   post 'products/reset' => 'products#reset'
   post 'products/buy' => 'products#buy'
   get '/viewproducts' => 'products#view'
+  get '/exportcsv' => 'products#exportcsv'
+  post '/importcsv' => 'products#importcsv'
+  get '/importcsv' => 'products#importcsv'
+  
   get '/purchaseproducts' => 'products#purchaseproducts'
+  get '/restoreproduct' => 'products#restoreproduct'
+  get '/addtocart' => 'products#addtocart'
+  get '/removeproduct' => 'products#removeproduct'
 
   # get 'dashboard' => 'products#dashboard'
 

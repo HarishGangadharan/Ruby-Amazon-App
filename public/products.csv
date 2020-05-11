@@ -1,0 +1,13 @@
+id,name,price,description,quantity,category_id,status
+1,watchphone,25000,fossil smart watch,3,1,active
+2,Kids toys,1000,"Funny kids toys like barbie,etc...",4,2,active
+3,Drone 2.0,100000,High effective done,2,1,inactive
+4,headphone,3000,sony headphone,3,1,active
+5, gear,50000, gear,2,1,inactive
+6,laptop,34000,hp laptops ,3,1,active
+11,mouse,350,lenevo mouse,10,1,inactive
+12,keyboard ,1000,wireless keyboard,3,1,active
+13,mac book,100000,mac book air pro,2,1,inactive
+14,asd,23,qwasd,1,1,inactive
+15,watch,2323,asdasd,12,1,inactive
+,asda,232,asdasdasd,1,1,active

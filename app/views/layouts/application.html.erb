@@ -30,6 +30,7 @@
       <!-- For all other devices -->
       <!-- Size should be 32 x 32 pixels -->
       <%= favicon_link_tag 'images/favicon.ico', :rel => 'shortcut icon' %>
+      
    </head>
    <body class="metrouicss bg-color-lighten">
       <div class="page">
@@ -37,19 +38,33 @@
             <div class="nav-bar-inner padding10" >
                <span class="pull-menu"></span>
                <a href="/">
-               <span class="element brand">
+               <span class="brand element mt-0">
                <span class="metro-ui-logo place-left"></span>
                <span class="name">Store</span>
                </span>
                </a>
                <% if @current_user && @current_user.id != '' %>
+               <span>
                <%= link_to "Products", products_path,  
                   {:class => "text-white m-3"} %>
+                  <%= link_to "Cart", new_order_path,  
+                  {:class => "text-white m-3"} %>
+                  <% if @current_user && @current_user.is_admin == true %>
+
+                  <%= link_to "Category", categories_path,  
+                  {:class => "text-white m-3"} %>
+                  <% end %>
+
 
                <% end %>
+               </span>
+
+               
+
+               
 
                <span 
-               class='d-flex text-white float-right'>
+               class='d-flex text-white float-right mt-1'>
                   <% if @current_user == nil %>
 
                   <span style="text-black">
@@ -111,7 +126,7 @@
                bottom: 0;
                width: 100%;
                background-color:grey">
-               <span class="element">&copy; Company 2012</span>
+               <span class="element">&copy; Company 2020</span>
             </div>
          </div>
       </div>

@@ -1,11 +1,48 @@
 <div class='container'>
 <div>
+<div class='align-content-center d-flex justify-content-center '>
+
 <h2 class="text-center my-3 font-weight-bold">Product list</h2>
+<% if @current_user && @current_user.is_admin == true %>
+
+<%= link_to  exportcsv_path , {:class => "text-body mt-3 ml-4"} do %>
+   <%= image_tag('/assets/csv.png', {:style => "mr-3"}) %>
+   <% end %>
+
+
+<%= link_to  importcsv_path , {:class => "text-body mt-3 ml-4"} do %>
+   
+  <a onclick='showRegister("uploadContainer")' class="">
+  <%= image_tag('/assets/csv_i.jpeg', {:class => "mt-3"}) %>
+  </a>
+
+   <% end %>
+   <% end %>
+
+   </div>
+
+
+   <div class='my-4' id='uploadContainer' style='display:none' >
+   <%= form_tag importcsv_path, multipart: true do |f| %>
+      <div class="align-items-center d-flex justify-content-center ">
+
+      <span>
+      <input type="file" accept=".csv" name='csvfile' />
+
+      </span>
+      <%= submit_tag 'Submit' %>
+      </div>
+  
+      <% end %>
+      </div>
+
+
+
 
 <div class='align-content-center d-flex justify-content-around '>
 <% if @current_user && @current_user.is_admin == true %>
 <%= link_to "Create new product ", new_product_path,  
-   { :class => "btn btn-default text-black-50 h-100 ml-4"} %>
+   { :class => "btn btn-default text-body-50 h-100 ml-4"} %>
 <% end %>
 <% if  @products.length != 0 %>
 <div class='d-flex mb-3'>
@@ -28,6 +65,8 @@
    <%= form_for :product, url: products_reset_path() do |f| %>
    <input type='hidden' name="product[page]" placeholder='name' value='products'>
    <%= f.submit 'Reset', :class => ''  %>
+
+
    <% end %>
 </div>
 <% end %>
@@ -35,15 +74,37 @@
 
 
 
+
+<% if @current_user && @current_user.is_admin == true %>
+
+<%= form_for :product, url: products_sort_path() do |form| %>
+
+   <div class='d-flex float-right w-25'>
+ 
+   <div class="custom-control custom-switch">
+      <%= form.check_box :status, class: "custom-control-input", id: "customSwitch1" ,
+       name: "sortKey" %>
+    <label class="custom-control-label" for="customSwitch1">Inactive </label>
+   </div>
+   <div class="actions">
+       <%= form.submit "Sort" %>
+   </div>
+   </div>
+
+  <% end %>
+  <% end %>
+
 <% if  @products.length == 0 %>
 <h2 class="text-center">No Product list to be shown</h2>
 <% else %>
 
-<div class='row' style='margin-left:100px'>
+
+<div class='row' style='margin-left: 100px'>
+
 
 <% @products.each_with_index do |product, index| %>
 
-   <%= link_to  viewproducts_path(request.query_parameters.merge({ product:   product.id })) , {:class => "text-black"} do %>
+   <%= link_to  viewproducts_path(request.query_parameters.merge({ product:   product.id })) , {:class => "text-body"} do %>
 
    <div class="card bg-color-blueLight h-auto col-md-3 m-3 p-3" >
    <div class="card-body p-2">
@@ -52,29 +113,50 @@
             <div class='d-flex justify-content-between mt-2'>
                <h3 class="card-title font-weight-bold text-center"><%= product.name %></h3>
                <% if @current_user && @current_user.is_admin == true %>
-                  <%= link_to  edit_product_path(product) , {:class => "text-black"} do %>
+
+               
+                  <%= link_to  edit_product_path(product) , {:class => "text-body"} do %>
                      <i class="fa fa-edit"></i>
                   <% end %>
                <% end %>
 
             </div>
-            <p class="card-text font-weight-bold text-body mb-2">Price : ₹ <%= product.price %></p>
+            <div class='d-flex justify-content-between mb-2'>
 
-            <%= link_to "Purchase", purchaseproducts_path(request.query_parameters.merge({ product:   product.id })),
+            <p class="card-text font-weight-normal text-body ">Price :  <%= number_to_indian_currency( product.price ) %></p>
+            <p class="card-text font-weight-normal text-body ">Quantity :  <%= product.quantity == nil ? 1 : product.quantity %></p>
+            </div>
+
+            <% if product.status == 'active' %>
+
+            <%= link_to "Add to Cart", addtocart_path(request.query_parameters.merge({ product:   product.id })),
                { :class => "btn btn-primary text-light"} %>
+
+
+
+               <% end %>
+
+
+
 
             <% if @current_user && @current_user.is_admin == true %>
 
-               <%= link_to "Delete", product, method: :delete,
-                  data: { confirm: 'Are you sure to delete ?'  },  class: "btn btn-danger text-light" %>
-            <% end %>
+            <% if product.status == 'active' %>
+
+                  <% else %>
+                  <%= link_to "Restore", restoreproduct_path(request.query_parameters.merge({ product:   product.id })),
+                  { :class => "btn btn-primary text-light"} %>
+
+                  <% end %>
+
+                  <% end %>
+                  
          </div>
       </div>
 
    </div>
 
    <% end %>
-
 
 
    <% end %>
@@ -86,3 +168,20 @@
 
 </div>
 </div>
+
+
+<script language="javascript" type="text/javascript">
+function showRegister(elementId) {
+      var element = document.getElementById(elementId);
+      if(element.style.display == 'block') {
+         element.style.display = 'none'
+      } else {
+         element.style.display = 'block'
+      }
+      ;
+}
+
+
+   
+
+</script>

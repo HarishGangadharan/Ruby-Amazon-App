@@ -2,11 +2,21 @@
 <h2 class='text-center font-weight-bold m-4'> Edit Product </h2>
 <%= form_for @product do |f| %>
 
+   
+   <div class='d-flex'>
+<div class="form-group">
+<label for="image" class="text-info">Image:</label><br>
+<span>
+<%= f.file_field :image %>
+</span>
+</div>
+   </div>
+
    <div class="form-group">
    <div>
    <label for="Choose category" class="text-info">Choose category:</label><br>
       <span>
-         <select name="product[category_id]" class="w-50 p-2">
+         <select name="product[category_id]" class="w-100 p-2">
             <% @categories.each do |category| %>
             <option
                value=<%= category.id%>><%= category.name%></option>
@@ -17,7 +27,8 @@
       </span>
    </div>
    </div>
-   
+
+
    <div class="form-group">
    <label for="name" class="text-info">Name:</label><br>
    <span>
